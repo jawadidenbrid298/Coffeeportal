@@ -4,8 +4,8 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 export default function PasswordValidation({password}) {
   const [allValid, setAllValid] = useState(false);
-  const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity
-  const [isVisible, setIsVisible] = useState(true); // To control visibility of the component
+  const [fadeAnim] = useState(new Animated.Value(1));
+  const [isVisible, setIsVisible] = useState(true);
 
   const validationRules = [
     {
@@ -28,25 +28,24 @@ export default function PasswordValidation({password}) {
     if (allRulesValid) {
       setAllValid(true);
 
-      // Fade out the component after 1 second
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 1000,
         useNativeDriver: true,
-        // On animation end, set visibility to false
+
         onComplete: () => {
           setIsVisible(false);
         }
       }).start();
     } else {
       setAllValid(false);
-      // Reset opacity if the rules are invalid again
+
       fadeAnim.setValue(1);
-      setIsVisible(true); // Ensure visibility is true if validation fails
+      setIsVisible(true);
     }
   }, [allRulesValid, fadeAnim]);
 
-  if (!password || (allValid && fadeAnim._value === 0)) return null; // Don't render if password is empty or component is fully hidden
+  if (!password || (allValid && fadeAnim._value === 0)) return null;
 
   return isVisible ? (
     <Animated.View style={[styles.container, {opacity: fadeAnim}]}>
@@ -63,7 +62,7 @@ export default function PasswordValidation({password}) {
       ))}
     </Animated.View>
   ) : (
-    <View /> // Replace with an empty div (view) when the animation is complete
+    <View />
   );
 }
 

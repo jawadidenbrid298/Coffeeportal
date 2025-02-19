@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import PasswordValidation from './PasswordValidation';
@@ -10,39 +10,42 @@ const MyField = ({
   onChange,
   onBlur,
   icon,
-  secureTextEntry,
-  showPassword,
-  setShowPassword = () => {}, // Default empty function
+  secureTextEntry = false,
   error,
   touched,
   keyboardType = 'default',
   autoCapitalize = 'none'
 }) => {
+  const [showPassword, setShowPassword] = useState(false); // Local state for visibility toggle
+
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputContainer}>
-        {icon && <MaterialCommunityIcons name={icon} size={24} color={value ? 'rgba(25, 154, 142, 1)' : '#666'} />}
+        {icon && <MaterialCommunityIcons name={icon} size={24} color={value ? '#C67C4E' : '#666'} />}
+
         <TextInput
           style={styles.input}
           placeholder={placeholder}
           value={value}
           onChangeText={onChange}
           onBlur={onBlur}
-          secureTextEntry={secureTextEntry && !showPassword}
+          secureTextEntry={secureTextEntry && !showPassword} // Fix: Ensure correct behavior
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
         />
+
         {secureTextEntry && (
           <Pressable onPress={() => setShowPassword(!showPassword)}>
             <MaterialCommunityIcons
               name={showPassword ? 'eye-off-outline' : 'eye-outline'}
               size={24}
-              color={value ? 'rgba(25, 154, 142, 1)' : '#666'}
+              color={value ? '#C67C4E' : '#666'}
             />
           </Pressable>
         )}
       </View>
+
       {secureTextEntry && <PasswordValidation password={value} />}
       {touched && error && <Text style={styles.errorText}>{error}</Text>}
     </View>
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '400',
-    color: 'rgba(17, 24, 39, 1)',
+    color: '#666',
     marginBottom: 8
   },
   inputContainer: {
@@ -64,13 +67,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 16,
     height: 48,
+    width:"100%",
     paddingHorizontal: 12,
     backgroundColor: 'white',
     gap: 16
-  },
-  icon: {
-    marginRight: 8,
-    color: 'rgba(156, 163, 175, 1)'
   },
   input: {
     flex: 1,

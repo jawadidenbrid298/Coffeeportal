@@ -1,101 +1,146 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, TextInput, Pressable} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, TextInput, Pressable, Alert, ActivityIndicator} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {signIn} from 'aws-amplify/auth';
 import MyField from '../../components/shared/MyField';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Email is required'),
   password: Yup.string().required('Password is required')
 });
-import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 export default function LoginScreen({navigation}) {
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSignIn = async (values, {setSubmitting}) => {
+    setLoginError('');
+    setLoading(true); // Show spinner
+    try {
+      const {isSignedIn, nextStep} = await signIn({
+        username: values.email,
+        password: values.password
+      });
+      console.log('Sign-in response:', {isSignedIn, nextStep});
+
+      if (isSignedIn) {
+        navigation.navigate('landingpage1');
+      } else {
+        Alert.alert('Login Incomplete', JSON.stringify(nextStep, null, 2));
+      }
+    } catch (error) {
+      console.error('Sign-in error details:', error.underlyingError);
+      console.log('Error code:', error.code);
+      console.log('Error message:', error.message);
+      handleAuthError(error);
+    } finally {
+      setSubmitting(false);
+      setLoading(false); // Hide spinner
+    }
+  };
+
+  const handleAuthError = (error) => {
+    console.log('Error details:', error);
+    let message = 'An unknown error occurred. Please try again.';
+    if (error.code === 'UserNotFoundException') {
+      message = 'No user found with this email.';
+    } else if (error.code === 'NotAuthorizedException') {
+      message = 'Incorrect email or password.';
+    } else if (error.code === 'UserNotConfirmedException') {
+      message = 'Your account is not confirmed. Please verify your email.';
+    } else if (error.code === 'PasswordResetRequiredException') {
+      message = 'Password reset required. Please reset your password.';
+    } else if (error.message) {
+      message = error.message;
+    }
+    setLoginError(message);
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Welcome Back!</Text>
-        <Text style={styles.subtitle}>Login in to your account</Text>
-      </View>
+    <View style={{backgroundColor: 'grey', height: '100%', flexDirection: 'row', justifyContent: 'center'}}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Welcome Back!</Text>
+          <Text style={styles.subtitle}>Login to your account</Text>
+        </View>
 
-      <Formik
-        initialValues={{email: '', password: ''}}
-        validationSchema={LoginSchema}
-        onSubmit={(values) => {
-          console.log(values);
-          // Handle login logic here
-          navigation.navigate('landingpage1'); // Navigate to landingpage1 after valid login
-        }}>
-        {({handleChange, handleSubmit, values, errors, touched, isValid, dirty, setTouched}) => (
-          <View style={styles.form}>
-            <MyField
-              label='Email'
-              placeholder='Email address'
-              value={values.email}
-              onChange={handleChange('email')}
-              onBlur={() => setTouched({...touched, email: true})}
-              icon='email-outline'
-              error={errors.email}
-              touched={touched.email}
-              keyboardType='email-address'
-              autoCapitalize='none'
-            />
+        <Formik initialValues={{email: '', password: ''}} validationSchema={LoginSchema} onSubmit={handleSignIn}>
+          {({handleChange, handleSubmit, values, errors, touched, isValid, dirty, setTouched}) => (
+            <View style={styles.form}>
+              <MyField
+                label='Email'
+                placeholder='Email address'
+                value={values.email}
+                onChange={handleChange('email')}
+                onBlur={() => setTouched({...touched, email: true})}
+                icon='email-outline'
+                error={errors.email}
+                touched={touched.email}
+                keyboardType='email-address'
+                autoCapitalize='none'
+              />
 
-            <View style={styles.inputContainer}>
-              <MaterialCommunityIcons
-                name='lock-outline'
-                size={24}
-                color={values.password ? 'rgba(25, 154, 142, 1)' : '#666'} // Change color if user types
-              />
-              <TextInput
-                style={[styles.input, styles.passwordInput]}
-                placeholder='Password'
-                value={values.password}
-                onChangeText={handleChange('password')}
-                onBlur={() => setTouched({...touched, password: true})}
-                secureTextEntry={!showPassword}
-              />
-              <Pressable onPress={() => setShowPassword(!showPassword)}>
-                <MaterialCommunityIcons
-                  name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                  size={24}
-                  color={values.password ? 'rgba(25, 154, 142, 1)' : '#666'} // Change color if user types
+              <View style={styles.inputContainer}>
+                <MaterialCommunityIcons name='lock-outline' size={24} color={values.password ? '#C67C4E' : '#666'} />
+                <TextInput
+                  style={[styles.input, styles.passwordInput]}
+                  placeholder='Password'
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={() => setTouched({...touched, password: true})}
+                  secureTextEntry={!showPassword}
                 />
-              </Pressable>
-            </View>
-            {touched.password && errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                  <MaterialCommunityIcons
+                    style={{position: 'absolute', right: 10, top: -12, width: 24}}
+                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={24}
+                    color={values.password ? '#C67C4E' : '#666'}
+                  />
+                </Pressable>
+              </View>
+              {touched.password && errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
-            <TouchableOpacity onPress={() => navigation.navigate('forgotPassword')}>
-              <Text style={styles.forgotPassword}>Forgot Password?</Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('forgotPassword')}>
+                <Text style={styles.forgotPassword}>Forgot Password?</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.loginButton,
-                {
-                  backgroundColor: isValid && dirty ? '#199A8E' : 'rgba(25, 154, 142, 0.5)'
-                }
-              ]}
-              onPress={() => handleSubmit()}
-              disabled={!(isValid && dirty)}>
-              <Text style={styles.loginButtonText}>Login</Text>
-            </TouchableOpacity>
+              {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
 
-            <View style={styles.signupContainer}>
-              <Text style={styles.signupText}>Don't have an account? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-                <Text style={styles.signupLink}>Sign Up</Text>
+              <TouchableOpacity
+                style={[
+                  styles.loginButton,
+                  {
+                    backgroundColor: '#C67C4E',
+                    opacity: isValid && dirty ? 1 : 0.6
+                  }
+                ]}
+                onPress={handleSubmit}
+                disabled={!(isValid && dirty) || loading}>
+                {loading ? (
+                  <ActivityIndicator size='small' color='#fff' />
+                ) : (
+                  <Text style={styles.loginButtonText}>Login</Text>
+                )}
+              </TouchableOpacity>
+
+              <View style={styles.signupContainer}>
+                <Text style={styles.signupText}>Don't have an account? </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+                  <Text style={styles.signupLink}>Sign Up</Text>
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity onPress={() => navigation.navigate('landingpage1')}>
+                <Text style={styles.landingPageLink}>Take me to landing page</Text>
               </TouchableOpacity>
             </View>
-
-            {/* New link added for "Take me to landing page" */}
-            <TouchableOpacity onPress={() => navigation.navigate('landingpage1')}>
-              <Text style={styles.landingPageLink}>Take me to landing page</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Formik>
+          )}
+        </Formik>
+      </View>
     </View>
   );
 }
@@ -105,6 +150,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: 50,
+    maxWidth: 700,
+    // alignItems:"center",
+    // justifyContent:"center",
     padding: 20
   },
   header: {
@@ -114,29 +162,31 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '400',
-    color: 'rgba(17, 24, 39, 1)',
+    color: '#313131',
     marginBottom: 8
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(156, 163, 175, 1)',
+    color: '#666',
     fontWeight: '400'
   },
   form: {
     width: '100%'
   },
   forgotPassword: {
-    color: 'rgba(25, 154, 142, 1)',
+    color: '#C67C4E',
     fontSize: 14,
     textAlign: 'right',
-    marginBottom: 24
+    marginBottom: 24,
+    textDecorationLine: 'underline'
   },
   loginButton: {
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 24,
-    padding: 16
+    padding: 16,
+    flexDirection: 'row'
   },
   loginButtonText: {
     color: 'white',
@@ -144,33 +194,25 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   inputContainer: {
+    position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: 'rgba(229, 231, 235, 1)',
     borderRadius: 12,
     marginBottom: 16,
-    height: '100%',
-    maxHeight: 48,
+    height: 48,
+    width: '100%',
     gap: 16,
     paddingHorizontal: 12,
-
     backgroundColor: 'white'
   },
-  icon: {
-    marginRight: 8,
-    color: 'rgba(156, 163, 175, 1)'
-  },
   input: {
-    flex: 1,
     fontSize: 16,
-    height: '100%',
-
-    maxHeight: 48,
-
     color: '#333'
   },
   passwordInput: {
+    width: '100%',
     marginRight: 8
   },
   errorText: {
@@ -186,16 +228,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   signupText: {
-    color: 'rgba(156, 163, 175, 1)',
+    color: '#313131',
     fontSize: 14
   },
   signupLink: {
-    color: 'rgba(25, 154, 142, 1)',
+    color: '#C67C4E',
     fontSize: 14,
-    fontWeight: '400'
+    fontWeight: '400',
+    textDecorationLine: 'underline'
   },
   landingPageLink: {
-    color: 'rgba(25, 154, 142, 1)',
+    color: '#D9A789',
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'center',

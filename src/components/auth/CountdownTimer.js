@@ -28,7 +28,7 @@ export default function CountdownTimer({initialSeconds, onComplete}) {
 
 const styles = StyleSheet.create({
   text: {
-    color: '#fff',
+    color: '#H6H6H6',
     textAlign: 'center',
     opacity: 0.8,
     fontSize: 14

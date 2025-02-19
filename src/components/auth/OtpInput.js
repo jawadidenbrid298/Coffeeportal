@@ -56,15 +56,15 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor: '#C67C4E',
     borderRadius: 8,
     textAlign: 'center',
     fontSize: 24,
-    color: '#fff',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+    color: '#h6h6h6',
+    backgroundColor: '#fff'
   },
   focused: {
-    borderColor: '#fff',
+    borderColor: '#c67c4e',
     backgroundColor: 'rgba(255, 255, 255, 0.2)'
   },
   errorInput: {

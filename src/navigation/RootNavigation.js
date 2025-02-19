@@ -12,6 +12,8 @@ import resetPassword from '../screens/auth/resetPassword';
 import passwordChanged from '../screens/auth/passwordChanged';
 
 import LandingPage1 from '../screens/landingpage/landingpage1';
+// import Freedrink from '../screens/landingpage/freedrink';
+
 const Stack = createNativeStackNavigator();
 
 function RootNavigation() {
@@ -26,6 +28,7 @@ function RootNavigation() {
         <Stack.Screen name='login' component={login} />
         <Stack.Screen name='signup' component={signup} />
         <Stack.Screen name='landingpage1' component={LandingPage1} />
+        {/* <Stack.Screen name='freedrink' component={Freedrink} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

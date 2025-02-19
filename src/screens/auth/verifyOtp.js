@@ -1,117 +1,81 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView
-} from 'react-native';
-import { Formik } from 'formik';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {confirmSignUp, confirmResetPassword} from 'aws-amplify/auth';
 import OtpInput from '../../components/auth/OtpInput';
 import CountdownTimer from '../../components/auth/CountdownTimer';
 
 const VerifySchema = Yup.object().shape({
   otp: Yup.string()
-    .matches(/^\d{5}$/, 'Please enter all digits')
+    .matches(/^\d{6}$/, 'Please enter all digits')
     .required('OTP is required')
 });
 
-export default function VerifyOtp({ navigation, route }) {
+export default function VerifyOtp({navigation, route}) {
   const email = route.params?.email || 'onamsarker@mail.com';
+  const mode = route.params?.from || 'signup';
   const [canResend, setCanResend] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleResend = () => {
-    // Handle resend logic here
-    setCanResend(false);
+  const handleVerifyOtp = async (values) => {
+    try {
+      if (mode === 'signup') {
+        const {isSignUpComplete} = await confirmSignUp({
+          username: email,
+          confirmationCode: values.otp
+        });
+
+        if (isSignUpComplete) {
+          navigation.navigate('accountSuccess');
+        }
+      } else if (mode === 'forgotPassword') {
+        navigation.navigate('resetPassword', {email, otp: values.otp});
+      }
+    } catch (error) {
+      setErrorMessage(error.message || 'Error verifying OTP');
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <MaterialCommunityIcons name='arrow-left' size={24} color='#H6H6H6' />
         </TouchableOpacity>
 
         <Text style={styles.title}>Verify Code</Text>
         <Text style={styles.subtitle}>
-          Please enter the code we just sent to email{'\n'}
+          Please enter the code we just sent to{'\n'}
           {email}
         </Text>
 
-        <Formik
-          initialValues={{ otp: '' }}
-          validationSchema={VerifySchema}
-          onSubmit={values => {
-            navigation.navigate('resetPassword');
-            console.log(values);
-            // Handle verification logic here
-          }}
-        >
-          {({
-            handleSubmit,
-            values,
-            setFieldValue,
-            errors,
-
-            isValid,
-            dirty
-          }) => (
+        <Formik initialValues={{otp: ''}} validationSchema={VerifySchema} onSubmit={handleVerifyOtp}>
+          {({handleSubmit, values, setFieldValue, errors, isValid, dirty}) => (
             <View style={styles.form}>
               <OtpInput
-                length={5}
+                length={6}
                 value={values.otp}
-                onChange={value => setFieldValue('otp', value)}
+                onChange={(value) => setFieldValue('otp', value)}
                 hasError={errors.otp}
               />
 
               {errors.otp && <Text style={styles.errorText}>{errors.otp}</Text>}
+              {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
               <View style={styles.timerContainer}>
                 {canResend ? (
-                  <TouchableOpacity onPress={handleResend}>
+                  <TouchableOpacity onPress={() => setCanResend(false)}>
                     <Text style={styles.resendText}>Resend code</Text>
                   </TouchableOpacity>
                 ) : (
-                  <CountdownTimer
-                    initialSeconds={48}
-                    onComplete={() => setCanResend(true)}
-                  />
+                  <CountdownTimer initialSeconds={48} onComplete={() => setCanResend(true)} />
                 )}
               </View>
-              <View style={{ flexDirection: 'row', marginBottom:20 }}>
-                <Text style={[styles.resend, { color: 'white' }]}>
-                  Code not received yet{' '}
-                </Text>
-                <Text style={[styles.resendCode, { color: 'white' }]}>
-                  Resend code{' '}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={[
-                  styles.continueButton,
-                  {
-                    backgroundColor:
-                      isValid && dirty
-                        ? 'rgba(25, 154, 142, 1)'
-                        : 'rgba(25, 154, 142, 0.5)'
-                  }
-                ]}
-                onPress={() => handleSubmit()}
-                disabled={!(isValid && dirty)}
-              >
-                <Text
-                  style={[
-                    styles.continueButtonText,
-                    { color: isValid && dirty ? 'white' : 'white' }
-                  ]}
-                >
-                  Continue{' '}
-                </Text>
+
+              <TouchableOpacity style={[styles.continueButton]} onPress={handleSubmit} disabled={!(isValid && dirty)}>
+                <Text style={[styles.continueButtonText, {color: 'white'}]}>Continue</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -124,7 +88,7 @@ export default function VerifyOtp({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(20, 123 ,114 ,1)'
+    backgroundColor: '#E3E3E3'
   },
   content: {
     flex: 1,
@@ -136,12 +100,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#H6H6H6',
     marginBottom: 8
   },
   subtitle: {
     fontSize: 14,
-    color: '#fff',
+    color: '#666',
     opacity: 0.8,
     marginBottom: 40,
     lineHeight: 20
@@ -159,12 +123,12 @@ const styles = StyleSheet.create({
     marginBottom: 40
   },
   resendText: {
-    color: '#fff',
+    color: '#C67C4E',
     fontSize: 14,
     textDecorationLine: 'underline'
   },
   continueButton: {
-    backgroundColor: '#7FFFD4',
+    backgroundColor: '#C67C4E',
     borderRadius: 8,
     width: '100%',
     height: 50,
@@ -175,16 +139,5 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 16,
     fontWeight: '600'
-  },
-  resend: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '400'
-  },
-  resendCode: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: '400',
-    textDecorationLine:"underline"
   }
 });
