@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ActivityIndicator} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {confirmSignUp, confirmResetPassword} from 'aws-amplify/auth';
+import {confirmSignUp} from 'aws-amplify/auth';
 import OtpInput from '../../components/auth/OtpInput';
 import CountdownTimer from '../../components/auth/CountdownTimer';
 
@@ -18,8 +18,12 @@ export default function VerifyOtp({navigation, route}) {
   const mode = route.params?.from || 'signup';
   const [canResend, setCanResend] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Added loading state
 
   const handleVerifyOtp = async (values) => {
+    setLoading(true); // Start loading
+    setErrorMessage('');
+
     try {
       if (mode === 'signup') {
         const {isSignUpComplete} = await confirmSignUp({
@@ -35,6 +39,8 @@ export default function VerifyOtp({navigation, route}) {
       }
     } catch (error) {
       setErrorMessage(error.message || 'Error verifying OTP');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -42,7 +48,7 @@ export default function VerifyOtp({navigation, route}) {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <MaterialCommunityIcons name='arrow-left' size={24} color='#H6H6H6' />
+          <MaterialCommunityIcons name='arrow-left' size={24} color='#666' />
         </TouchableOpacity>
 
         <Text style={styles.title}>Verify Code</Text>
@@ -74,8 +80,15 @@ export default function VerifyOtp({navigation, route}) {
                 )}
               </View>
 
-              <TouchableOpacity style={[styles.continueButton]} onPress={handleSubmit} disabled={!(isValid && dirty)}>
-                <Text style={[styles.continueButtonText, {color: 'white'}]}>Continue</Text>
+              <TouchableOpacity
+                style={[styles.continueButton, loading && styles.disabledButton]}
+                onPress={handleSubmit}
+                disabled={!(isValid && dirty) || loading}>
+                {loading ? (
+                  <ActivityIndicator size='small' color='white' />
+                ) : (
+                  <Text style={styles.continueButtonText}>Continue</Text>
+                )}
               </TouchableOpacity>
             </View>
           )}
@@ -100,7 +113,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#H6H6H6',
+    color: '#666',
     marginBottom: 8
   },
   subtitle: {
@@ -136,8 +149,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   continueButtonText: {
-    color: '#000',
+    color: 'white',
     fontSize: 16,
     fontWeight: '600'
+  },
+  disabledButton: {
+    opacity: 0.7
   }
 });

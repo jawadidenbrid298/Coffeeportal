@@ -10,7 +10,7 @@ import forgotPassword from '../screens/auth/forgotPassword';
 import accountSuccess from '../screens/auth/accountSuccess';
 import resetPassword from '../screens/auth/resetPassword';
 import passwordChanged from '../screens/auth/passwordChanged';
-
+import TabNavigator from './TabNavigator';
 import LandingPage1 from '../screens/landingpage/landingpage1';
 // import Freedrink from '../screens/landingpage/freedrink';
 
@@ -19,15 +19,17 @@ const Stack = createNativeStackNavigator();
 function RootNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='login'>
+      <Stack.Navigator screenOptions={{headerShown: false}} >
+        <Stack.Screen name='login' component={login} />
+
         <Stack.Screen name='forgotPassword' component={forgotPassword} />
         <Stack.Screen name='resetPassword' component={resetPassword} />
         <Stack.Screen name='passwordChanged' component={passwordChanged} />
         <Stack.Screen name='verifyOtp' component={verifyOtp} />
         <Stack.Screen name='accountSuccess' component={accountSuccess} />
-        <Stack.Screen name='login' component={login} />
         <Stack.Screen name='signup' component={signup} />
-        <Stack.Screen name='landingpage1' component={LandingPage1} />
+        {/* <Stack.Screen name='landingpage1' component={LandingPage1} /> */}
+        <Stack.Screen name='tabnavigator' component={TabNavigator} />
         {/* <Stack.Screen name='freedrink' component={Freedrink} /> */}
       </Stack.Navigator>
     </NavigationContainer>

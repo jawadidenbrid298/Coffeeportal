@@ -1,0 +1,18 @@
+projects:
+  coffeeportal:
+    schemaPath: amplify/backend/api/coffeeportal/build/schema.graphql
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: eu-north-1
+        apiId: null
+        maxDepth: 8
+extensions:
+  amplify:
+    version: 3

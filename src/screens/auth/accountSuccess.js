@@ -17,9 +17,9 @@ export default function AccountSuccess({navigation}) {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.successContainer}>
-          <Animated.View style={[styles.iconBorder, {transform: [{scale: scaleAnim}]}]}>
+          {/* <Animated.View style={[styles.iconBorder, {transform: [{scale: scaleAnim}]}]}>
             <MaterialIcons name='check-circle' size={200} color='#4CAF50' />
-          </Animated.View>
+          </Animated.View> */}
         </View>
         <View>
           <Text style={styles.title}>Account Created</Text>
