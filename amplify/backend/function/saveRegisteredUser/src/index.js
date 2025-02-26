@@ -13,25 +13,11 @@ export const handler = async (event) => {
     const freeDrinks = 0;
     const coins = 0;
     const stamps = 0;
+    const purchaseCount = 0;
     const paymentType = "";
 
-    // console.log(
-    //   "id",
-    //   userId,
-    //   "name",
-    //   name,
-    //   "email",
-    //   email,
-    //   "phone_number",
-    //   phoneNumber,
-    //   balance,
-    //   freeDrinks,
-    //   coins,
-    //   stamps
-    // );
-
     const params = {
-      TableName: "User-ao43gdqvu5eq5phtwjwwgio3se-coffeepor",
+      TableName: "Users-zg3kajqqjrembjsufgsptkldcm-dev",
       Item: {
         id: userId,
         email: email,
@@ -40,6 +26,7 @@ export const handler = async (event) => {
         phoneNumber: phoneNumber,
         balance: balance,
         freeDrinks: freeDrinks,
+        purchaseCount: purchaseCount,
         coins: coins,
         stamps: stamps,
         createdAt: new Date().toISOString(),

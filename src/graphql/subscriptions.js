@@ -1,15 +1,16 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
-    onCreateUser(filter: $filter) {
+export const onCreateUsers = /* GraphQL */ `
+  subscription OnCreateUsers($filter: ModelSubscriptionUsersFilterInput) {
+    onCreateUsers(filter: $filter) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -19,15 +20,16 @@ export const onCreateUser = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
-    onUpdateUser(filter: $filter) {
+export const onUpdateUsers = /* GraphQL */ `
+  subscription OnUpdateUsers($filter: ModelSubscriptionUsersFilterInput) {
+    onUpdateUsers(filter: $filter) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -37,15 +39,16 @@ export const onUpdateUser = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
-    onDeleteUser(filter: $filter) {
+export const onDeleteUsers = /* GraphQL */ `
+  subscription OnDeleteUsers($filter: ModelSubscriptionUsersFilterInput) {
+    onDeleteUsers(filter: $filter) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -55,45 +58,48 @@ export const onDeleteUser = /* GraphQL */ `
     }
   }
 `;
-export const onCreateDeposit = /* GraphQL */ `
-  subscription OnCreateDeposit($filter: ModelSubscriptionDepositFilterInput) {
-    onCreateDeposit(filter: $filter) {
+export const onCreateDeposits = /* GraphQL */ `
+  subscription OnCreateDeposits($filter: ModelSubscriptionDepositsFilterInput) {
+    onCreateDeposits(filter: $filter) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onUpdateDeposit = /* GraphQL */ `
-  subscription OnUpdateDeposit($filter: ModelSubscriptionDepositFilterInput) {
-    onUpdateDeposit(filter: $filter) {
+export const onUpdateDeposits = /* GraphQL */ `
+  subscription OnUpdateDeposits($filter: ModelSubscriptionDepositsFilterInput) {
+    onUpdateDeposits(filter: $filter) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onDeleteDeposit = /* GraphQL */ `
-  subscription OnDeleteDeposit($filter: ModelSubscriptionDepositFilterInput) {
-    onDeleteDeposit(filter: $filter) {
+export const onDeleteDeposits = /* GraphQL */ `
+  subscription OnDeleteDeposits($filter: ModelSubscriptionDepositsFilterInput) {
+    onDeleteDeposits(filter: $filter) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onCreatePayment = /* GraphQL */ `
-  subscription OnCreatePayment($filter: ModelSubscriptionPaymentFilterInput) {
-    onCreatePayment(filter: $filter) {
+export const onCreatePayments = /* GraphQL */ `
+  subscription OnCreatePayments($filter: ModelSubscriptionPaymentsFilterInput) {
+    onCreatePayments(filter: $filter) {
       id
       userID
       stamps
@@ -104,9 +110,9 @@ export const onCreatePayment = /* GraphQL */ `
     }
   }
 `;
-export const onUpdatePayment = /* GraphQL */ `
-  subscription OnUpdatePayment($filter: ModelSubscriptionPaymentFilterInput) {
-    onUpdatePayment(filter: $filter) {
+export const onUpdatePayments = /* GraphQL */ `
+  subscription OnUpdatePayments($filter: ModelSubscriptionPaymentsFilterInput) {
+    onUpdatePayments(filter: $filter) {
       id
       userID
       stamps
@@ -117,13 +123,49 @@ export const onUpdatePayment = /* GraphQL */ `
     }
   }
 `;
-export const onDeletePayment = /* GraphQL */ `
-  subscription OnDeletePayment($filter: ModelSubscriptionPaymentFilterInput) {
-    onDeletePayment(filter: $filter) {
+export const onDeletePayments = /* GraphQL */ `
+  subscription OnDeletePayments($filter: ModelSubscriptionPaymentsFilterInput) {
+    onDeletePayments(filter: $filter) {
       id
       userID
       stamps
       amount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateDrinks = /* GraphQL */ `
+  subscription OnCreateDrinks($filter: ModelSubscriptionDrinksFilterInput) {
+    onCreateDrinks(filter: $filter) {
+      id
+      name
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateDrinks = /* GraphQL */ `
+  subscription OnUpdateDrinks($filter: ModelSubscriptionDrinksFilterInput) {
+    onUpdateDrinks(filter: $filter) {
+      id
+      name
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteDrinks = /* GraphQL */ `
+  subscription OnDeleteDrinks($filter: ModelSubscriptionDrinksFilterInput) {
+    onDeleteDrinks(filter: $filter) {
+      id
+      name
+      price
       createdAt
       updatedAt
       __typename

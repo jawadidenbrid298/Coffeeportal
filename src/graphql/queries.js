@@ -1,15 +1,16 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
+export const getUsers = /* GraphQL */ `
+  query GetUsers($id: ID!) {
+    getUsers(id: $id) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -21,7 +22,7 @@ export const getUser = /* GraphQL */ `
 `;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
-    $filter: ModelUserFilterInput
+    $filter: ModelUsersFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -33,6 +34,7 @@ export const listUsers = /* GraphQL */ `
         phoneNumber
         paymentType
         balance
+        purchaseCount
         freeDrinks
         coins
         stamps
@@ -45,12 +47,13 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const getDeposit = /* GraphQL */ `
-  query GetDeposit($id: ID!) {
-    getDeposit(id: $id) {
+export const getDeposits = /* GraphQL */ `
+  query GetDeposits($id: ID!) {
+    getDeposits(id: $id) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
@@ -59,7 +62,7 @@ export const getDeposit = /* GraphQL */ `
 `;
 export const listDeposits = /* GraphQL */ `
   query ListDeposits(
-    $filter: ModelDepositFilterInput
+    $filter: ModelDepositsFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -68,6 +71,7 @@ export const listDeposits = /* GraphQL */ `
         id
         userID
         amount
+        paymentType
         createdAt
         updatedAt
         __typename
@@ -77,9 +81,9 @@ export const listDeposits = /* GraphQL */ `
     }
   }
 `;
-export const getPayment = /* GraphQL */ `
-  query GetPayment($id: ID!) {
-    getPayment(id: $id) {
+export const getPayments = /* GraphQL */ `
+  query GetPayments($id: ID!) {
+    getPayments(id: $id) {
       id
       userID
       stamps
@@ -92,7 +96,7 @@ export const getPayment = /* GraphQL */ `
 `;
 export const listPayments = /* GraphQL */ `
   query ListPayments(
-    $filter: ModelPaymentFilterInput
+    $filter: ModelPaymentsFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -111,11 +115,43 @@ export const listPayments = /* GraphQL */ `
     }
   }
 `;
+export const getDrinks = /* GraphQL */ `
+  query GetDrinks($id: ID!) {
+    getDrinks(id: $id) {
+      id
+      name
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listDrinks = /* GraphQL */ `
+  query ListDrinks(
+    $filter: ModelDrinksFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDrinks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        price
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const depositsByUserID = /* GraphQL */ `
   query DepositsByUserID(
     $userID: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelDepositFilterInput
+    $filter: ModelDepositsFilterInput
     $limit: Int
     $nextToken: String
   ) {
@@ -130,6 +166,7 @@ export const depositsByUserID = /* GraphQL */ `
         id
         userID
         amount
+        paymentType
         createdAt
         updatedAt
         __typename
@@ -143,7 +180,7 @@ export const paymentsByUserID = /* GraphQL */ `
   query PaymentsByUserID(
     $userID: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelPaymentFilterInput
+    $filter: ModelPaymentsFilterInput
     $limit: Int
     $nextToken: String
   ) {

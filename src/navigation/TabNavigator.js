@@ -5,7 +5,9 @@ import {Ionicons} from 'react-native-vector-icons';
 import GiftScreen from '../screens/tab/giftScreen';
 import LocationScreen from '../screens/tab/locationScreen';
 import LandingPage1 from '../screens/landingpage/landingpage1';
-import SettingsScreen from '../screens/tab/SettingsScreen';
+import SettingsScreen from '../screens/tab/settingsScreen/SettingsScreen';
+
+import QRCodeGenerator from '../components/qrcode/ QRCodeGenerator';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +26,8 @@ const TabNavigator = () => {
             iconName = focused ? 'location' : 'location-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
+          } else if (route.name === 'QR') {
+            iconName = focused ? 'barcode-scan' : 'barcode';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -36,6 +40,7 @@ const TabNavigator = () => {
       })}>
       <Tab.Screen name='Home' component={LandingPage1} />
       <Tab.Screen name='Gifts' component={GiftScreen} />
+      <Tab.Screen name='QR' component={QRCodeGenerator} />
       <Tab.Screen name='Location' component={LocationScreen} />
       <Tab.Screen name='Settings' component={SettingsScreen} />
     </Tab.Navigator>

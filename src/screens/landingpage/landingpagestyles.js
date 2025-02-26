@@ -4,81 +4,117 @@ import {StyleSheet, Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
-  scrollViewContent: {flexGrow: 1},
-  imageBackground: {width: width * 1, height: height * 0.5, resizeMode: 'cover'},
-  topSection: {height: height * 0.5, justifyContent: 'center', alignItems: 'center', width: '100%'},
-  nameContainer: {flexDirection: 'row', alignItems: 'center', position: 'absolute', top: 20, left: 20},
-  greeting: {fontSize: 24, fontWeight: 'bold', color: '#f8f8f8', flex: 'wrap'},
-  phone: {position: 'absolute', top: 60, left: 20, fontSize: 16, color: '#f8f8f8'},
-  dropdownMenu: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    elevation: 5,
-    zIndex: 100,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 4
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
   },
-  dropdownItem: {flexDirection: 'row', alignItems: 'center', paddingVertical: 10},
-  dropdownText: {fontSize: 16, color: '#800000', marginLeft: 10},
-  cardContainer: {
+  topSection: {
+    height: height * 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f8f8',
+    padding: 20
+  },
+  userInfoContainer: {
+    position: 'absolute',
+    top: 39,
+    left: 16
+  },
+  greeting: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    lineHeight: 27.28
+  },
+  phone: {
+    fontSize: 20,
+    color: 'gray',
+    lineHeight: 27.28
+  },
+
+  statsGrid: {
+    marginTop: 57,
     flexDirection: 'row',
-    marginBottom: 20,
+    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
+    marginHorizontal: 50,
     width: '100%'
   },
-  card: {
+  statBox: {
     flex: 1,
-    marginHorizontal: 5,
-    height: 120,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    backgroundColor: '#FECACA'
+    alignItems: 'center'
   },
-  cardText: {color: '#6F0023', fontSize: 16, textAlign: 'center'},
-  readingCard: {
+  icon: {
+    width: 42,
+    height: 35,
+    resizeMode: 'contain'
+  },
+  statNumber: {
+    fontSize: 32,
+    fontWeight: '400',
+    marginTop: 8
+  },
+  statLabel: {
+    fontSize: 14,
+    color: 'brown',
+    marginTop: 2
+  },
+  divider: {
+    width: 1,
+    height: 80,
+    backgroundColor: 'gray'
+  },
+
+  bottomSection: {
+    height: height * 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    width: '100%'
+  },
+
+  animatedCircleContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{translateX: -110}, {translateY: -110}] // Half of the circle size to center it
+  },
+
+  contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FECACA',
-    borderRadius: 20,
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    elevation: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    width: '47%'
+    justifyContent: 'center',
+    gap: 18
   },
-  textContainer: {flexDirection: 'row', alignItems: 'center'},
-  readingText: {fontSize: 24, fontWeight: 'bold', color: '#9B1C1C', marginLeft: 1},
-  divider: {width: 2, height: '60%', backgroundColor: '#A67C00', marginHorizontal: 5},
-  imageWrapper: {position: 'absolute', right: -10, top: -15, zIndex: 2},
-  coffeeImage: {width: 60, height: 75},
-  bottomSection: {width: '100%', marginTop: 20, alignItems: 'center'},
-  brewedText: {fontSize: 18, fontWeight: 'bold', color: '#800000', marginBottom: 10, alignSelf: 'flex-start'},
-  imageCard: {width: '100%', borderRadius: 20, marginBottom: 20, overflow: 'hidden'},
-  image: {width: '100%', height: 150},
-  imageText: {
-    marginTop: 10,
-    fontSize: 20,
-    color: '#800000',
-    textAlign: 'left',
+  image: {
     width: '100%',
-    paddingHorizontal: 10,
-    fontWeight: 'bold'
+    height: '100%',
+    resizeMode: 'cover',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30
   },
-  nationText: {fontSize: 16, color: 'black', textAlign: 'left', width: '100%', paddingHorizontal: 10},
-  firstDigit: {fontSize: 32, color: '#9B1C1C', fontWeight: 'bold', marginLeft: 1},
-  secondDigit: {fontSize: 24, marginLeft: 1, color: '#9B1C1C', fontWeight: 'bold'}
-});
+  circleIcon: {
+    height: 31.35,
+    width: 31.35,
+    resizeMode: 'contain'
+  },
 
+  circleNumber: {
+    fontSize: 40,
+
+    fontWeight: '400',
+    color: '#fff'
+  },
+  circleLabel: {
+    top: 20,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '400',
+    color: '#ffff'
+  }
+});
 export default styles;

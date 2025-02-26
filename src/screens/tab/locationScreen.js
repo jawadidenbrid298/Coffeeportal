@@ -169,8 +169,8 @@
 
 import React from 'react';
 
-function locationScreen() {
+function LocationScreen() {
   return <div>locationScreen</div>;
 }
 
-export default locationScreen;
+export default LocationScreen;

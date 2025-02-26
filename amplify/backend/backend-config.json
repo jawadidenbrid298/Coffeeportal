@@ -1,25 +1,10 @@
 {
   "api": {
     "coffeeportal": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "coffeeportalc6b990bc"
-        }
-      ],
+      "dependsOn": [],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-              "userPoolConfig": {
-                "userPoolId": "authcoffeeportalc6b990bc"
-              }
-            }
-          ],
+          "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
               "apiKeyExpirationDays": 7
@@ -33,7 +18,7 @@
     }
   },
   "auth": {
-    "coffeeportalc6b990bc": {
+    "coffeeportal3a26a9a6": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -61,6 +46,11 @@
     }
   },
   "function": {
+    "addDummyDataInUsers": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "saveRegisteredUser": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -68,6 +58,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_addDummyDataInUsers_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "addDummyDataInUsers"
+        }
+      ]
+    },
+    "AMPLIFY_function_addDummyDataInUsers_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "addDummyDataInUsers"
+        }
+      ]
+    },
     "AMPLIFY_function_saveRegisteredUser_deploymentBucketName": {
       "usedBy": [
         {

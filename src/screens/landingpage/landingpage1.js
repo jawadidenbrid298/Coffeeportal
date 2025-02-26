@@ -1,146 +1,135 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Image, ImageBackground, TouchableOpacity, ScrollView, RefreshControl, Animated} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, Image, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import {AntDesign, Feather} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
+import {generateClient} from 'aws-amplify/api';
 import {getCurrentUser} from 'aws-amplify/auth';
-import {Card} from '@ant-design/react-native';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Freedrink from '../freedrink/freedrink';
-import SignOutButton from '../auth/signout';
 import styles from './landingpagestyles';
-import {generateClient} from '@aws-amplify/api';
-import {getUser} from '../../graphql/queries';
+import {getUsers} from '../../graphql/queries';
+import Freedrink from '../freedrink/freedrink';
 
 const client = generateClient();
 
-const LandingPage1 = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+const LandingPage = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [tilt] = useState(new Animated.Value(0));
-
   const [userData, setUserData] = useState(null);
+  const navigation = useNavigation();
+  const [showFreeDrink, setShowFreeDrink] = useState(true);
 
-  const fetchUserData = async () => {
+  const fetchUser = async () => {
     try {
-      const {userId} = await getCurrentUser(); // Get user ID
+      const {userId} = await getCurrentUser();
       const response = await client.graphql({
-        query: getUser,
+        query: getUsers,
         variables: {id: userId}
       });
 
-      setUserData(response.data.getUser);
+      setUserData(response.data.getUsers);
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('Error fetching user:', error);
     }
   };
 
   useEffect(() => {
-    fetchUserData();
+    fetchUser();
   }, []);
 
-  useEffect(() => {
-    const tiltAnimation = () => {
-      Animated.sequence([
-        Animated.timing(tilt, {toValue: 20, duration: 150, useNativeDriver: true}),
-        Animated.timing(tilt, {toValue: -20, duration: 150, useNativeDriver: true}),
-        Animated.timing(tilt, {toValue: 0, duration: 150, useNativeDriver: true})
-      ]).start();
-    };
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await fetchUser();
+    } catch (error) {
+      console.error('Error refreshing user data:', error);
+    }
+    setRefreshing(false);
+  }, []);
 
-    const interval = setInterval(tiltAnimation, 3000);
-    return () => clearInterval(interval);
-  }, [tilt]);
-
-  const toggleModal = () => setModalVisible(!modalVisible);
-  const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
-
-  const onRefresh = async () => {
-    setIsRefreshing(true);
-    await fetchUserData();
-    setIsRefreshing(false);
+  const handleSettingsNavigation = () => {
+    setDropdownVisible(false);
+    navigation.navigate('settings');
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollViewContent}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
-        <ImageBackground source={require('../../assets/landingpagebackground.png')} style={styles.imageBackground}>
-          <View style={styles.topSection}>
-            <TouchableOpacity onPress={toggleDropdown} style={styles.nameContainer}>
-              <Text style={styles.greeting}>Hi, {userData?.name}</Text>
-              <MaterialIcons name='arrow-drop-down' size={24} color='#f8f8f8' />
+    <ScrollView
+      style={styles.container}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      {/* Top Section */}
+      <View style={styles.topSection}>
+        <View style={styles.userInfoContainer}>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 3}}>
+            <TouchableOpacity onPress={() => setDropdownVisible(!dropdownVisible)}>
+              <AntDesign name='down' size={20} color='black' />
             </TouchableOpacity>
-            <Text style={styles.phone}>{userData?.phoneNumber || 'N/A'}</Text>
-
-            {dropdownVisible && (
-              <View style={styles.dropdownMenu}>
-                <TouchableOpacity onPress={SignOutButton} style={styles.dropdownItem}>
-                  <SignOutButton />
-                </TouchableOpacity>
-              </View>
-            )}
-
-            <View style={styles.cardContainer}>
-              <Card style={styles.card}>
-                <MaterialIcons name='store' size={48} color='#6F0023' />
-                <Text style={styles.cardText}>Scan at Shop</Text>
-              </Card>
-              <Card style={styles.card}>
-                <MaterialIcons name='qr-code' size={48} color='#6F0023' />
-                <Text style={styles.cardText}>Scan at Machine</Text>
-              </Card>
-            </View>
-
-            <Card style={styles.readingCard}>
-              <View style={styles.textContainer}>
-                <Text style={styles.firstDigit}>7/</Text>
-                <Text style={styles.secondDigit}>10</Text>
-              </View>
-              <MaterialIcons name='sports-rugby' size={20} color='#A67C00' />
-
-              {/* Fixed Divider */}
-              <View style={styles.divider} />
-
-              <Text style={styles.readingText}>{userData?.freeDrinks || '0'}</Text>
-
-              <TouchableOpacity style={styles.imageWrapper} onPress={toggleModal}>
-                <Animated.Image
-                  source={require('../../assets/coffee.png')}
-                  style={[
-                    styles.coffeeImage,
-                    {
-                      transform: [
-                        {
-                          rotate: tilt.interpolate({
-                            inputRange: [-20, 20],
-                            outputRange: ['-20deg', '20deg']
-                          })
-                        }
-                      ]
-                    }
-                  ]}
-                />
-              </TouchableOpacity>
-            </Card>
+            <Text style={styles.greeting}>Hi, {userData?.name || 'User'}</Text>
           </View>
-        </ImageBackground>
+          <Text style={styles.phone}>{userData?.phoneNumber || '+XXX-XXX-XXX'}</Text>
 
-        <View style={{paddingHorizontal: 20}}>
-          <Freedrink visible={modalVisible} onClose={toggleModal} />
+          {/* Dropdown Menu */}
+          {dropdownVisible && (
+            <View style={styles.dropdownMenu}>
+              <TouchableOpacity style={styles.dropdownItem} onPress={handleSettingsNavigation}>
+                <Feather name='settings' size={20} color='black' />
+                <Text style={styles.dropdownText}>Settings</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
 
-          <View style={styles.bottomSection}>
-            <Text style={styles.brewedText}>BREWED FOR YOU</Text>
+        <View style={styles.statsGrid}>
+          <View style={styles.statBox}>
+            <Image source={require('../../assets/coffee.png')} style={styles.icon} />
+            <Text style={styles.statNumber}>{userData?.stamps || 0} / 10</Text>
+            <Text style={styles.statLabel}>Purchased Drinks</Text>
+          </View>
 
-            <Card style={styles.imageCard}>
-              <Image source={require('../../assets/istockphoto.png')} style={styles.image} />
-              <Text style={styles.imageText}>15 years as your fave</Text>
-              <Text style={styles.nationText}>Named the nation's favourite coffee shop</Text>
-            </Card>
+          <View style={styles.divider} />
+
+          <View style={styles.statBox}>
+            <Image source={require('../../assets/coffee.png')} style={styles.icon} />
+            <Text style={styles.statNumber}>{userData?.freeDrinks || 0} Drinks</Text>
+            <Text style={styles.statLabel}>Total Drink</Text>
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+
+      <Freedrink
+        visible={showFreeDrink}
+        onClose={() => setShowFreeDrink(false)}
+        rewards={[
+          userData?.stamps === 10
+            ? 'You have a free drink!'
+            : `${10 - (userData?.stamps || 0)} cups to go for a free drink!`,
+          'Drink'
+        ]}
+      />
+
+      {/* Bottom Section */}
+      <View style={styles.bottomSection}>
+        <Image source={require('../../assets/backgroundimage.jpg')} style={styles.image} />
+
+        {/* Animated Circle */}
+        <View style={styles.animatedCircleContainer}>
+          <AnimatedCircularProgress
+            size={220}
+            width={8}
+            fill={((userData?.stamps || 0) / 10) * 100}
+            tintColor='red'
+            backgroundColor='white'
+            rotation={0}>
+            {() => (
+              <View style={styles.contentContainer}>
+                <Image source={require('../../assets/coin.png')} style={styles.circleIcon} />
+                <Text style={styles.circleNumber}>{userData?.stamps || 0}</Text>
+              </View>
+            )}
+          </AnimatedCircularProgress>
+          <Text style={styles.circleLabel}>Balance Points</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
-export default LandingPage1;
+export default LandingPage;

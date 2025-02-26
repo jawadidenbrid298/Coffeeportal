@@ -1,46 +1,77 @@
-import React from 'react';
-
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -110,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginHorizontal: 30
   },
-  rewardText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 10,
-    textAlign: 'start'
-  },
+
   card: {
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 125,
     borderRadius: 20,
-    backgroundColor: 'white',
-    elevation: 5,
-    position: 'relative'
+    backgroundColor: 'transparent', // Ensure gradient is visible
+    elevation: 0,
+    borderColor: 'transparent',
+    position: 'absolute',
+    zIndex: 10,
+
+    overflow: 'hidden'
+
+    // Prevents content from spilling over
   },
+
   closeButton: {
     position: 'absolute',
     top: 10,
     right: 10,
-    zIndex: 1
+    zIndex: 11
   },
-  image: {
-    width: '100%',
-    height: 170,
-    borderRadius: 10,
-    marginBottom: 10
+
+  gradient: {
+    ...StyleSheet.absoluteFillObject, // Makes sure the gradient covers the whole card
+    borderRadius: 10
   },
-  text: {
-    marginTop: 5,
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#6F0023',
-    textAlign: 'center'
+
+  contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '100%',
+    padding: 20
+  },
+
+  leftStack: {
+    flex: 4,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+
+  countText: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: 'white',
+
+    lineHeight: 24.55
+  },
+  drinkText: {
+    fontSize: 48,
+    color: '#F35C00'
+  },
+
+  rightStack: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 60,
+    marginRight: 20
+  },
+
+  rewardImage: {
+    width: 180,
+    height: 110,
+    resizeMode: 'contain'
   }
 });
 

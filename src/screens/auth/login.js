@@ -27,7 +27,7 @@ export default function LoginScreen({navigation}) {
       console.log('Sign-in response:', {isSignedIn, nextStep});
 
       if (isSignedIn) {
-        navigation.navigate('tabnavigator');
+        navigation.navigate('landingpage');
       } else {
         Alert.alert('Login Incomplete', JSON.stringify(nextStep, null, 2));
       }
@@ -134,7 +134,7 @@ export default function LoginScreen({navigation}) {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity onPress={() => navigation.navigate('tabnavigator')}>
+              <TouchableOpacity onPress={() => navigation.navigate('landingpage')}>
                 <Text style={styles.landingPageLink}>Take me to landing page</Text>
               </TouchableOpacity>
             </View>

@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "saveRegisteredUser",
+            "addDummyDataInUsers",
             {
               "Fn::Join": [
                 "",
                 [
-                  "saveRegisteredUser",
+                  "addDummyDataInUsers",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "coffeeportalLambdaRolecc18acfb",
+            "coffeeportalLambdaRole67ddb51b",
             {
               "Fn::Join": [
                 "",
                 [
-                  "coffeeportalLambdaRolecc18acfb",
+                  "coffeeportalLambdaRole67ddb51b",
                   "-",
                   {
                     "Ref": "env"

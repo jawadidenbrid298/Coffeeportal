@@ -3,13 +3,14 @@
 input AMPLIFY {
   globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
-type User @model {
+type Users @model {
   id: ID!
   email: String!
   name: String!
   phoneNumber: String!
   paymentType: String!
   balance: Float
+  purchaseCount: Int
   freeDrinks: Int
   coins: Int
   stamps: Int
@@ -17,19 +18,28 @@ type User @model {
   updatedAt: AWSDateTime
 }
 
-type Deposit @model {
+type Deposits @model {
   id: ID!
   userID: ID! @index(name: "byUser")
+  amount: Float
+  paymentType: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Payments @model {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  stamps: Int
   amount: Float
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
 
-type Payment @model {
+type Drinks @model {
   id: ID!
-  userID: ID! @index(name: "byUser")
-  stamps: Int
-  amount: Float
+  name: String!
+  price: Float
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }

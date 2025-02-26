@@ -1,18 +1,19 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
+export const createUsers = /* GraphQL */ `
+  mutation CreateUsers(
+    $input: CreateUsersInput!
+    $condition: ModelUsersConditionInput
   ) {
-    createUser(input: $input, condition: $condition) {
+    createUsers(input: $input, condition: $condition) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -22,18 +23,19 @@ export const createUser = /* GraphQL */ `
     }
   }
 `;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
+export const updateUsers = /* GraphQL */ `
+  mutation UpdateUsers(
+    $input: UpdateUsersInput!
+    $condition: ModelUsersConditionInput
   ) {
-    updateUser(input: $input, condition: $condition) {
+    updateUsers(input: $input, condition: $condition) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -43,18 +45,19 @@ export const updateUser = /* GraphQL */ `
     }
   }
 `;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
+export const deleteUsers = /* GraphQL */ `
+  mutation DeleteUsers(
+    $input: DeleteUsersInput!
+    $condition: ModelUsersConditionInput
   ) {
-    deleteUser(input: $input, condition: $condition) {
+    deleteUsers(input: $input, condition: $condition) {
       id
       email
       name
       phoneNumber
       paymentType
       balance
+      purchaseCount
       freeDrinks
       coins
       stamps
@@ -64,57 +67,60 @@ export const deleteUser = /* GraphQL */ `
     }
   }
 `;
-export const createDeposit = /* GraphQL */ `
-  mutation CreateDeposit(
-    $input: CreateDepositInput!
-    $condition: ModelDepositConditionInput
+export const createDeposits = /* GraphQL */ `
+  mutation CreateDeposits(
+    $input: CreateDepositsInput!
+    $condition: ModelDepositsConditionInput
   ) {
-    createDeposit(input: $input, condition: $condition) {
+    createDeposits(input: $input, condition: $condition) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const updateDeposit = /* GraphQL */ `
-  mutation UpdateDeposit(
-    $input: UpdateDepositInput!
-    $condition: ModelDepositConditionInput
+export const updateDeposits = /* GraphQL */ `
+  mutation UpdateDeposits(
+    $input: UpdateDepositsInput!
+    $condition: ModelDepositsConditionInput
   ) {
-    updateDeposit(input: $input, condition: $condition) {
+    updateDeposits(input: $input, condition: $condition) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const deleteDeposit = /* GraphQL */ `
-  mutation DeleteDeposit(
-    $input: DeleteDepositInput!
-    $condition: ModelDepositConditionInput
+export const deleteDeposits = /* GraphQL */ `
+  mutation DeleteDeposits(
+    $input: DeleteDepositsInput!
+    $condition: ModelDepositsConditionInput
   ) {
-    deleteDeposit(input: $input, condition: $condition) {
+    deleteDeposits(input: $input, condition: $condition) {
       id
       userID
       amount
+      paymentType
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const createPayment = /* GraphQL */ `
-  mutation CreatePayment(
-    $input: CreatePaymentInput!
-    $condition: ModelPaymentConditionInput
+export const createPayments = /* GraphQL */ `
+  mutation CreatePayments(
+    $input: CreatePaymentsInput!
+    $condition: ModelPaymentsConditionInput
   ) {
-    createPayment(input: $input, condition: $condition) {
+    createPayments(input: $input, condition: $condition) {
       id
       userID
       stamps
@@ -125,12 +131,12 @@ export const createPayment = /* GraphQL */ `
     }
   }
 `;
-export const updatePayment = /* GraphQL */ `
-  mutation UpdatePayment(
-    $input: UpdatePaymentInput!
-    $condition: ModelPaymentConditionInput
+export const updatePayments = /* GraphQL */ `
+  mutation UpdatePayments(
+    $input: UpdatePaymentsInput!
+    $condition: ModelPaymentsConditionInput
   ) {
-    updatePayment(input: $input, condition: $condition) {
+    updatePayments(input: $input, condition: $condition) {
       id
       userID
       stamps
@@ -141,16 +147,61 @@ export const updatePayment = /* GraphQL */ `
     }
   }
 `;
-export const deletePayment = /* GraphQL */ `
-  mutation DeletePayment(
-    $input: DeletePaymentInput!
-    $condition: ModelPaymentConditionInput
+export const deletePayments = /* GraphQL */ `
+  mutation DeletePayments(
+    $input: DeletePaymentsInput!
+    $condition: ModelPaymentsConditionInput
   ) {
-    deletePayment(input: $input, condition: $condition) {
+    deletePayments(input: $input, condition: $condition) {
       id
       userID
       stamps
       amount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createDrinks = /* GraphQL */ `
+  mutation CreateDrinks(
+    $input: CreateDrinksInput!
+    $condition: ModelDrinksConditionInput
+  ) {
+    createDrinks(input: $input, condition: $condition) {
+      id
+      name
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateDrinks = /* GraphQL */ `
+  mutation UpdateDrinks(
+    $input: UpdateDrinksInput!
+    $condition: ModelDrinksConditionInput
+  ) {
+    updateDrinks(input: $input, condition: $condition) {
+      id
+      name
+      price
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteDrinks = /* GraphQL */ `
+  mutation DeleteDrinks(
+    $input: DeleteDrinksInput!
+    $condition: ModelDrinksConditionInput
+  ) {
+    deleteDrinks(input: $input, condition: $condition) {
+      id
+      name
+      price
       createdAt
       updatedAt
       __typename
