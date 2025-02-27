@@ -1,49 +1,42 @@
-import {StyleSheet, Alert, Text, TextInput, View, TouchableOpacity, Animated, Platform} from 'react-native';
+import {StyleSheet, Animated, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {getCurrentUser, updatePassword} from 'aws-amplify/auth';
 import {generateClient} from '@aws-amplify/api';
-import {getUser} from '../../../graphql/queries';
-import {updateUser} from '../../../graphql/mutations';
-import {AntDesign} from '@expo/vector-icons';
-import {styles} from './SettingsScreenStyle';
+import {getUsers} from '../../../graphql/queries';
+import {updateUsers} from '../../../graphql/mutations';
+import {AntDesign, Feather} from '@expo/vector-icons';
 import SignOutButton from '../../auth/signout';
-
+import {useNavigation} from '@react-navigation/native';
+import CustomButton from '../../../components/shared/CustomButton';
+import {styles} from './SettingsScreenStyle';
 const client = generateClient();
 
 const SettingsScreen = () => {
-  const [userData, setUserData] = useState({
-    id: '',
-    name: '',
-    phoneNumber: '',
-    email: ''
-  });
-
-  const [passwords, setPasswords] = useState({
-    oldPassword: '',
-    newPassword: ''
-  });
-
-  const [expandedSection, setExpandedSection] = useState(null); // Track open section
+  const [userData, setUserData] = useState({id: '', name: '', phoneNumber: '', email: ''});
+  const [passwords, setPasswords] = useState({oldPassword: '', newPassword: ''});
+  const [expandedSection, setExpandedSection] = useState(null);
+  const [editingField, setEditingField] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
-
-  // Animation for success message
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const nameInputRef = useRef(null);
+  const phoneInputRef = useRef(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const {username} = await getCurrentUser();
         const {data} = await client.graphql({
-          query: getUser,
+          query: getUsers,
           variables: {id: username}
         });
 
-        if (data?.getUser) {
+        if (data?.getUsers) {
           setUserData({
-            id: data.getUser.id,
-            name: data.getUser.name || '',
-            phoneNumber: data.getUser.phoneNumber || '',
-            email: data.getUser.email || ''
+            id: data.getUsers.id,
+            name: data.getUsers.name || '',
+            phoneNumber: data.getUsers.phoneNumber || '',
+            email: data.getUsers.email || ''
           });
         }
       } catch (error) {
@@ -55,21 +48,31 @@ const SettingsScreen = () => {
   }, []);
 
   const toggleSection = (section) => {
-    setExpandedSection((prev) => (prev === section ? null : section)); // Toggle open/close
+    setExpandedSection((prev) => (prev === section ? null : section));
+    setEditingField(null);
   };
 
-  // Function to show the animated success message
+  const enableEditing = (field) => {
+    setEditingField(field);
+    setTimeout(() => {
+      if (field === 'name' && nameInputRef.current) {
+        nameInputRef.current.focus();
+      } else if (field === 'phone' && phoneInputRef.current) {
+        phoneInputRef.current.focus();
+      }
+    }, 100);
+  };
+
   const showSuccessMessage = (message) => {
     setSuccessMessage(message);
-
     Animated.timing(fadeAnim, {
-      toValue: 1, // Fully visible
+      toValue: 1,
       duration: 300,
       useNativeDriver: true
     }).start(() => {
       setTimeout(() => {
         Animated.timing(fadeAnim, {
-          toValue: 0, // Fade out
+          toValue: 0,
           duration: 300,
           useNativeDriver: true
         }).start(() => setSuccessMessage(''));
@@ -80,7 +83,7 @@ const SettingsScreen = () => {
   const handleUpdate = async () => {
     try {
       const {data} = await client.graphql({
-        query: updateUser,
+        query: updateUsers, // Using updateUsers instead of updateUser
         variables: {
           input: {
             id: userData.id,
@@ -90,9 +93,10 @@ const SettingsScreen = () => {
         }
       });
 
-      if (data?.updateUser) {
+      if (data?.updateUsers) {
         showSuccessMessage('Profile updated successfully!');
         setExpandedSection(null);
+        setEditingField(null);
       }
     } catch (error) {
       console.error('Error updating user:', error);
@@ -123,9 +127,15 @@ const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Settings</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('landingpage')} style={styles.backButton}>
+        <AntDesign name='arrowleft' size={24} color='black' />
+      </TouchableOpacity>
 
-      {/* Animated Success Message */}
+      <View style={styles.header}>
+        <AntDesign name='setting' size={24} color='black' style={{marginRight: 8}} />
+        <Text style={styles.headerText}>Settings</Text>
+      </View>
+
       {successMessage ? (
         <Animated.View style={[styles.successMessage, {opacity: fadeAnim}]}>
           <Text style={styles.successText}>{successMessage}</Text>
@@ -137,14 +147,22 @@ const SettingsScreen = () => {
         <Text style={styles.label}>Name</Text>
         <AntDesign name={expandedSection === 'name' ? 'up' : 'down'} size={20} color='gray' />
       </TouchableOpacity>
+
       {expandedSection === 'name' && (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder='Enter name'
-            value={userData.name}
-            onChangeText={(text) => setUserData({...userData, name: text})}
-          />
+        <View style={styles.dropdownContainer}>
+          <View style={styles.inputRow}>
+            <TextInput
+              ref={nameInputRef}
+              style={styles.input}
+              placeholder='Enter name'
+              value={userData.name}
+              onChangeText={(text) => setUserData({...userData, name: text})}
+              editable={editingField === 'name'}
+            />
+            <TouchableOpacity onPress={() => enableEditing('name')}>
+              <Feather name='edit-2' size={18} color='gray' />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
 
@@ -153,15 +171,23 @@ const SettingsScreen = () => {
         <Text style={styles.label}>Phone Number</Text>
         <AntDesign name={expandedSection === 'phone' ? 'up' : 'down'} size={20} color='gray' />
       </TouchableOpacity>
+
       {expandedSection === 'phone' && (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder='Enter phone number'
-            keyboardType='phone-pad'
-            value={userData.phoneNumber}
-            onChangeText={(text) => setUserData({...userData, phoneNumber: text})}
-          />
+        <View style={styles.dropdownContainer}>
+          <View style={styles.inputRow}>
+            <TextInput
+              ref={phoneInputRef}
+              style={styles.input}
+              placeholder='Enter phone number'
+              keyboardType='phone-pad'
+              value={userData.phoneNumber}
+              onChangeText={(text) => setUserData({...userData, phoneNumber: text})}
+              editable={editingField === 'phone'}
+            />
+            <TouchableOpacity onPress={() => enableEditing('phone')}>
+              <Feather name='edit-2' size={18} color='gray' />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
 
@@ -170,8 +196,9 @@ const SettingsScreen = () => {
         <Text style={styles.label}>Change Password</Text>
         <AntDesign name={expandedSection === 'password' ? 'up' : 'down'} size={20} color='gray' />
       </TouchableOpacity>
+
       {expandedSection === 'password' && (
-        <View style={styles.inputContainer}>
+        <View style={styles.dropdownContainer}>
           <TextInput
             style={styles.input}
             placeholder='Old Password'
@@ -186,23 +213,12 @@ const SettingsScreen = () => {
             value={passwords.newPassword}
             onChangeText={(text) => setPasswords({...passwords, newPassword: text})}
           />
+          <CustomButton title='Update Password' onPress={handleUpdatePassword} />
         </View>
       )}
 
-      {/* Save Button */}
-      {expandedSection !== null && expandedSection !== 'password' && (
-        <TouchableOpacity style={styles.button} onPress={handleUpdate}>
-          <Text style={styles.buttonText}>Save Changes</Text>
-        </TouchableOpacity>
-      )}
+      {editingField && expandedSection && <CustomButton title='Save Changes' onPress={handleUpdate} />}
 
-      {/* Update Password Button */}
-      {expandedSection === 'password' && (
-        <TouchableOpacity style={styles.button} onPress={handleUpdatePassword}>
-          <Text style={styles.buttonText}>Update Password</Text>
-        </TouchableOpacity>
-      )}
-      {/* Sign Out Button */}
       <SignOutButton />
     </View>
   );

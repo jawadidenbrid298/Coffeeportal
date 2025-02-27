@@ -15,8 +15,9 @@ const LandingPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [userData, setUserData] = useState(null);
-  const navigation = useNavigation();
   const [showFreeDrink, setShowFreeDrink] = useState(true);
+
+  const navigation = useNavigation();
 
   const fetchUser = async () => {
     try {
@@ -38,11 +39,7 @@ const LandingPage = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    try {
-      await fetchUser();
-    } catch (error) {
-      console.error('Error refreshing user data:', error);
-    }
+    await fetchUser();
     setRefreshing(false);
   }, []);
 
@@ -51,11 +48,20 @@ const LandingPage = () => {
     navigation.navigate('settings');
   };
 
+  const renderDropdown = () =>
+    dropdownVisible && (
+      <View style={styles.dropdownMenu}>
+        <TouchableOpacity style={styles.dropdownItem} onPress={handleSettingsNavigation}>
+          <Feather name='settings' size={20} color='black' />
+          <Text style={styles.dropdownText}>Settings</Text>
+        </TouchableOpacity>
+      </View>
+    );
+
   return (
     <ScrollView
       style={styles.container}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      {/* Top Section */}
       <View style={styles.topSection}>
         <View style={styles.userInfoContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 3}}>
@@ -65,32 +71,25 @@ const LandingPage = () => {
             <Text style={styles.greeting}>Hi, {userData?.name || 'User'}</Text>
           </View>
           <Text style={styles.phone}>{userData?.phoneNumber || '+XXX-XXX-XXX'}</Text>
-
-          {/* Dropdown Menu */}
-          {dropdownVisible && (
-            <View style={styles.dropdownMenu}>
-              <TouchableOpacity style={styles.dropdownItem} onPress={handleSettingsNavigation}>
-                <Feather name='settings' size={20} color='black' />
-                <Text style={styles.dropdownText}>Settings</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+          {renderDropdown()}
         </View>
 
         <View style={styles.statsGrid}>
-          <View style={styles.statBox}>
-            <Image source={require('../../assets/coffee.png')} style={styles.icon} />
-            <Text style={styles.statNumber}>{userData?.stamps || 0} / 10</Text>
-            <Text style={styles.statLabel}>Purchased Drinks</Text>
-          </View>
-
-          <View style={styles.divider} />
-
-          <View style={styles.statBox}>
-            <Image source={require('../../assets/coffee.png')} style={styles.icon} />
-            <Text style={styles.statNumber}>{userData?.freeDrinks || 0} Drinks</Text>
-            <Text style={styles.statLabel}>Total Drink</Text>
-          </View>
+          {[
+            {label: 'Purchased Drinks', count: userData?.purchaseCount || 0, total: '/ 10'},
+            {label: 'Total Drink', count: userData?.stamps || 0, total: ' Drinks'}
+          ].map((item, index) => (
+            <React.Fragment key={index}>
+              <View style={styles.statBox}>
+                <Image source={require('../../assets/coffee.png')} style={styles.icon} />
+                <Text style={styles.statNumber}>
+                  {item.count} {item.total}
+                </Text>
+                <Text style={styles.statLabel}>{item.label}</Text>
+              </View>
+              {index === 0 && <View style={styles.divider} />}
+            </React.Fragment>
+          ))}
         </View>
       </View>
 
@@ -98,30 +97,28 @@ const LandingPage = () => {
         visible={showFreeDrink}
         onClose={() => setShowFreeDrink(false)}
         rewards={[
-          userData?.stamps === 10
+          userData?.purchaseCount === 10
             ? 'You have a free drink!'
-            : `${10 - (userData?.stamps || 0)} cups to go for a free drink!`,
+            : `${10 - (userData?.purchaseCount || 0)} cups to go for a free drink!`,
           'Drink'
         ]}
       />
 
-      {/* Bottom Section */}
       <View style={styles.bottomSection}>
         <Image source={require('../../assets/backgroundimage.jpg')} style={styles.image} />
 
-        {/* Animated Circle */}
         <View style={styles.animatedCircleContainer}>
           <AnimatedCircularProgress
             size={220}
             width={8}
-            fill={((userData?.stamps || 0) / 10) * 100}
-            tintColor='red'
+            fill={((userData?.coins || 0) / 10) * 100}
+            tintColor='white'
             backgroundColor='white'
             rotation={0}>
             {() => (
               <View style={styles.contentContainer}>
                 <Image source={require('../../assets/coin.png')} style={styles.circleIcon} />
-                <Text style={styles.circleNumber}>{userData?.stamps || 0}</Text>
+                <Text style={styles.circleNumber}>{userData?.coins || 0}</Text>
               </View>
             )}
           </AnimatedCircularProgress>

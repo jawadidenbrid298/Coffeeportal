@@ -10,15 +10,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 125,
     borderRadius: 20,
-    backgroundColor: 'transparent', // Ensure gradient is visible
+    backgroundColor: 'transparent',
     elevation: 0,
     borderColor: 'transparent',
     position: 'absolute',
     zIndex: 10,
-
     overflow: 'hidden'
-
-    // Prevents content from spilling over
   },
 
   closeButton: {
@@ -29,7 +26,7 @@ const styles = StyleSheet.create({
   },
 
   gradient: {
-    ...StyleSheet.absoluteFillObject, // Makes sure the gradient covers the whole card
+    ...StyleSheet.absoluteFillObject,
     borderRadius: 10
   },
 
@@ -52,7 +49,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: 'white',
-
     lineHeight: 24.55
   },
   drinkText: {

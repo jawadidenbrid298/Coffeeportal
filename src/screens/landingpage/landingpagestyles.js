@@ -54,14 +54,15 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   statLabel: {
-    fontSize: 14,
-    color: 'brown',
-    marginTop: 2
+    fontSize: 13,
+    color: '#550000',
+    marginTop: 2,
+    lineHeight: 17.73
   },
   divider: {
     width: 1,
     height: 80,
-    backgroundColor: 'gray'
+    backgroundColor: '#B1B1B1'
   },
 
   bottomSection: {

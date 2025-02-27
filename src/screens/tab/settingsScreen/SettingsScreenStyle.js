@@ -6,10 +6,17 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5'
   },
   header: {
+    flexDirection: 'row',
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'black'
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   successMessage: {
     backgroundColor: '#4CAF50',
@@ -77,5 +84,27 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     marginLeft: 8
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  dropdownContainer: {
+    backgroundColor: '#F9F9F9',
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: {width: 0, height: 3},
+    shadowRadius: 5,
+    elevation: 2
+  },
+  signout: {
+    justifyContent: 'flex-end',
+    alignContent: 'flex-end'
   }
 });
