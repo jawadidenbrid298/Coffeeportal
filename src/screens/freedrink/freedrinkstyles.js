@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 
   countText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '400',
     color: 'white',
     lineHeight: 24.55

@@ -101,7 +101,7 @@ export default function VerifyOtp({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E3E3E3'
+    backgroundColor: '#fff'
   },
   content: {
     flex: 1,
@@ -136,12 +136,12 @@ const styles = StyleSheet.create({
     marginBottom: 40
   },
   resendText: {
-    color: '#C67C4E',
+    color: '#65100D',
     fontSize: 14,
     textDecorationLine: 'underline'
   },
   continueButton: {
-    backgroundColor: '#C67C4E',
+    backgroundColor: '#65100D',
     borderRadius: 8,
     width: '100%',
     height: 50,

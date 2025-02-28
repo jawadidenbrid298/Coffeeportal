@@ -1,11 +1,11 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, Alert, Platform} from 'react-native';
 import {signOut} from 'aws-amplify/auth';
 import {MaterialIcons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native'; // Import the hook
+import {useNavigation} from '@react-navigation/native';
 
 export default function SignOutButton() {
-  const navigation = useNavigation(); // Get navigation object
+  const navigation = useNavigation();
 
   async function handleSignOut() {
     try {
@@ -16,21 +16,52 @@ export default function SignOutButton() {
     }
   }
 
+  function confirmSignOut() {
+    if (Platform.OS === 'web') {
+      const isConfirmed = window.confirm('Are you sure you want to sign out?');
+      if (isConfirmed) {
+        handleSignOut();
+      }
+    } else {
+      Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'Yes', onPress: handleSignOut}
+      ]);
+    }
+  }
+
   return (
-    <TouchableOpacity onPress={handleSignOut} style={styles.dropdownItem}>
-      <MaterialIcons name='logout' size={20} color='red' />
-      <Text style={styles.dropdownText}>Sign Out</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={confirmSignOut} style={styles.signOutButton}>
+        <Text style={styles.signOutText}>Sign Out</Text>
+        <MaterialIcons name='logout' size={20} color='white' />
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  dropdownItem: {
-    flexDirection: 'row', // Keeps items in a row
-    alignItems: 'flex-end', // Aligns items at the bottom within their container
-    justifyContent: 'flex-end', // Moves items to the right (end)
-    paddingVertical: 10
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
 
-  dropdownText: {fontSize: 16, color: 'red', marginLeft: 10}
+  signOutButton: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#B91C1C',
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+
+  signOutText: {
+    fontSize: 20,
+    color: 'white',
+
+    fontWeight: 'bold'
+  }
 });

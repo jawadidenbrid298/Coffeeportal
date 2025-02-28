@@ -84,7 +84,7 @@ export default function LoginScreen({navigation}) {
               />
 
               <View style={styles.inputContainer}>
-                <MaterialCommunityIcons name='lock-outline' size={24} color={values.password ? '#C67C4E' : '#666'} />
+                <MaterialCommunityIcons name='lock-outline' size={24} color={values.password ? '#65100D' : '#666'} />
                 <TextInput
                   style={[styles.input, styles.passwordInput]}
                   placeholder='Password'
@@ -98,7 +98,7 @@ export default function LoginScreen({navigation}) {
                     style={{position: 'absolute', right: 10, top: -12, width: 24}}
                     name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                     size={24}
-                    color={values.password ? '#C67C4E' : '#666'}
+                    color={values.password ? '#65100D' : '#666'}
                   />
                 </Pressable>
               </View>
@@ -114,7 +114,7 @@ export default function LoginScreen({navigation}) {
                 style={[
                   styles.loginButton,
                   {
-                    backgroundColor: '#C67C4E',
+                    backgroundColor: '#65100D',
                     opacity: isValid && dirty ? 1 : 0.6
                   }
                 ]}
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   forgotPassword: {
-    color: '#C67C4E',
+    color: '#65100D',
     fontSize: 14,
     textAlign: 'right',
     marginBottom: 24,
@@ -232,13 +232,13 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   signupLink: {
-    color: '#C67C4E',
+    color: '#65100D',
     fontSize: 14,
     fontWeight: '400',
     textDecorationLine: 'underline'
   },
   landingPageLink: {
-    color: '#D9A789',
+    color: '#65100D',
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'center',

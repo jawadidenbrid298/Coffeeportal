@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
     left: 16
   },
   greeting: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
     lineHeight: 27.28
   },
   phone: {
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   statLabel: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#550000',
     marginTop: 2,
     lineHeight: 17.73
@@ -77,14 +76,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: [{translateX: -110}, {translateY: -110}] // Half of the circle size to center it
+    transform: [{translateX: -110}, {translateY: -110}]
   },
 
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 18
+    gap: 12,
+    paddingVertical: 5
   },
   image: {
     width: '100%',
@@ -98,24 +98,69 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30
   },
+
   circleIcon: {
-    height: 31.35,
-    width: 31.35,
+    width: 42,
+    height: 42,
     resizeMode: 'contain'
   },
 
   circleNumber: {
     fontSize: 40,
-
     fontWeight: '400',
-    color: '#fff'
+    color: '#fff',
+    textAlign: 'center',
+    includeFontPadding: false,
+    height: 42,
+    lineHeight: 42,
+    textAlignVertical: 'center',
+    alignSelf: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 3
   },
+
   circleLabel: {
     top: 20,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '400',
     color: '#ffff'
+  },
+
+  dropdownMenu: {
+    position: 'absolute',
+    top: 62,
+    left: 0,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    width: 160,
+    zIndex: 1000
+  },
+
+  dropdownItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9'
+  },
+
+  dropdownText: {
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333'
   }
 });
 export default styles;

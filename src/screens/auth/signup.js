@@ -4,6 +4,8 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
+import CountryPicker from 'react-native-country-code-picker';
+
 import MyField from '../../components/shared/MyField';
 import {signUp} from 'aws-amplify/auth';
 import {ActivityIndicator} from 'react-native';
@@ -30,15 +32,42 @@ export default function SignUpScreen({navigation}) {
 
   const handleSignup = async (values, {setSubmitting, setErrors}) => {
     try {
+      // Parse the entered phone number.
+      // If it starts with '+' we extract the country code by assuming that the remaining 10 digits are the local number.
+      // Otherwise, default to '+1'
+      const phoneValue = values.phone;
+      const phoneDigits = phoneValue.replace(/\D/g, '');
+      let selectedCountryCode = '';
+      let phoneNumberWithoutCountryCode = '';
+
+      if (phoneValue.startsWith('+')) {
+        const totalDigits = phoneDigits.length;
+        if (totalDigits > 10) {
+          const countryCodeLength = totalDigits - 10;
+          selectedCountryCode = '+' + phoneDigits.substring(0, countryCodeLength);
+          phoneNumberWithoutCountryCode = phoneDigits.substring(countryCodeLength);
+        } else {
+          selectedCountryCode = '+1';
+          phoneNumberWithoutCountryCode = phoneDigits;
+        }
+      } else {
+        selectedCountryCode = '+1';
+        phoneNumberWithoutCountryCode = phoneDigits;
+      }
+
+      const combinedPhoneNumber = selectedCountryCode + phoneNumberWithoutCountryCode;
+
       const {isSignUpComplete, userId, nextStep} = await signUp({
         username: values.email,
         password: values.password,
         options: {
           userAttributes: {
             email: values.email,
-            phone_number: values.phone,
+            phone_number: combinedPhoneNumber,
             name: values.nickname,
-            'custom:type': 'User'
+            'custom:type': 'User',
+            'custom:countryCode': selectedCountryCode,
+            'custom:phoneNumber': phoneNumberWithoutCountryCode
           }
         }
       });
@@ -101,6 +130,20 @@ export default function SignUpScreen({navigation}) {
               onChange={handleChange('phone')}
               error={errors.phone}
               touched={touched.phone}
+              leftComponent={
+                <View style={{width: 80}}>
+                  {' '}
+                  {/* Adjust width as needed */}
+                  <CountryPicker
+                    onSelect={(country) => {
+                      console.log('Selected Country:', country);
+                      setFieldValue('phone', `+${country.callingCode}`);
+                    }}
+                    withFlag
+                    withCallingCode
+                  />
+                </View>
+              }
             />
             <MyField
               label='Password'
@@ -129,7 +172,7 @@ export default function SignUpScreen({navigation}) {
               <Checkbox
                 value={values.termsAccepted}
                 onValueChange={(value) => setFieldValue('termsAccepted', value)}
-                color={values.termsAccepted ? '#C67C4E' : undefined}
+                color={values.termsAccepted ? '#65100D' : undefined}
                 style={styles.checkbox}
               />
               <Text style={styles.termsText}>
@@ -145,7 +188,7 @@ export default function SignUpScreen({navigation}) {
               style={[
                 styles.signUpButton,
                 {
-                  backgroundColor: '#C67C4E',
+                  backgroundColor: '#65100D',
                   opacity: isValid && dirty ? 1 : 0.6
                 }
               ]}
@@ -178,10 +221,11 @@ const styles = StyleSheet.create({
   title: {fontSize: 24, fontWeight: '400', color: '#313131', marginBottom: 8},
   subtitle: {fontSize: 16, fontWeight: '400', color: '#666'},
   form: {padding: 20},
+  // MyField's styles for label, inputContainer, and input remain as defined in your project
   termsContainer: {flexDirection: 'row', alignItems: 'center', marginVertical: 24},
   checkbox: {marginRight: 8, borderColor: 'rgba(209, 213, 219, 1)', borderRadius: 6},
   termsText: {flex: 1, color: '#666', fontSize: 14},
-  link: {color: '#C67C4E', textDecorationLine: 'underline'},
+  link: {color: '#65100D', textDecorationLine: 'underline'},
   signUpButton: {
     backgroundColor: '#009688',
     borderRadius: 8,
@@ -193,6 +237,6 @@ const styles = StyleSheet.create({
   signUpButtonText: {color: '#fff', fontSize: 16, fontWeight: '600'},
   loginContainer: {flexDirection: 'row', justifyContent: 'center', alignItems: 'center'},
   loginText: {color: 'rgba(156, 163, 175, 1)', fontSize: 16, fontWeight: '400'},
-  loginLink: {color: '#C67C4E', fontSize: 16, fontWeight: '400', textDecorationLine: 'underline'},
+  loginLink: {color: '#65100D', fontSize: 16, fontWeight: '400', textDecorationLine: 'underline'},
   errorText: {color: 'red', fontSize: 12}
 });

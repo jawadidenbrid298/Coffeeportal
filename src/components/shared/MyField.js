@@ -22,7 +22,7 @@ const MyField = ({
     <View>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.inputContainer}>
-        {icon && <MaterialCommunityIcons name={icon} size={24} color={value ? '#C67C4E' : '#666'} />}
+        {icon && <MaterialCommunityIcons name={icon} size={24} color={value ? '#65100D' : '#666'} />}
 
         <TextInput
           style={styles.input}
@@ -40,7 +40,7 @@ const MyField = ({
             <MaterialCommunityIcons
               name={showPassword ? 'eye-off-outline' : 'eye-outline'}
               size={24}
-              color={value ? '#C67C4E' : '#666'}
+              color={value ? '#65100D' : '#666'}
             />
           </Pressable>
         )}
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 16,
     height: 48,
-    width:"100%",
+    width: '100%',
     paddingHorizontal: 12,
     backgroundColor: 'white',
     gap: 16

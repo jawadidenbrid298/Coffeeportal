@@ -28,6 +28,7 @@ const LandingPage = () => {
       });
 
       setUserData(response.data.getUsers);
+      console.log(response.data.getUsers);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
@@ -48,15 +49,18 @@ const LandingPage = () => {
     navigation.navigate('settings');
   };
 
-  const renderDropdown = () =>
-    dropdownVisible && (
+  const renderDropdown = () => {
+    if (!dropdownVisible) return null;
+
+    return (
       <View style={styles.dropdownMenu}>
         <TouchableOpacity style={styles.dropdownItem} onPress={handleSettingsNavigation}>
-          <Feather name='settings' size={20} color='black' />
+          <Feather name='settings' size={20} color='#333' />
           <Text style={styles.dropdownText}>Settings</Text>
         </TouchableOpacity>
       </View>
     );
+  };
 
   return (
     <ScrollView
@@ -64,13 +68,15 @@ const LandingPage = () => {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.topSection}>
         <View style={styles.userInfoContainer}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 3}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
             <TouchableOpacity onPress={() => setDropdownVisible(!dropdownVisible)}>
-              <AntDesign name='down' size={20} color='black' />
+              <AntDesign name='caretdown' size={16} color='black' />
             </TouchableOpacity>
+
             <Text style={styles.greeting}>Hi, {userData?.name || 'User'}</Text>
           </View>
-          <Text style={styles.phone}>{userData?.phoneNumber || '+XXX-XXX-XXX'}</Text>
+          <Text style={styles.phone}>{userData?.phoneNumber || '+XX-XXX-XXXXXXX'}</Text>
+
           {renderDropdown()}
         </View>
 
@@ -98,8 +104,8 @@ const LandingPage = () => {
         onClose={() => setShowFreeDrink(false)}
         rewards={[
           userData?.purchaseCount === 10
-            ? 'You have a free drink!'
-            : `${10 - (userData?.purchaseCount || 0)} cups to go for a free drink!`,
+            ? 'You got a free'
+            : `${10 - (userData?.purchaseCount || 0)} Cups to Go for a Free `,
           'Drink'
         ]}
       />
