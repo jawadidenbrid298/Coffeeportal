@@ -7,7 +7,9 @@ export const onCreateUsers = /* GraphQL */ `
       id
       email
       name
+      countryCode
       phoneNumber
+      fullPhoneNumber
       paymentType
       balance
       purchaseCount
@@ -16,6 +18,215 @@ export const onCreateUsers = /* GraphQL */ `
       stamps
       createdAt
       updatedAt
+      deposits {
+        items {
+          id
+          userID
+          amount
+          createdAt
+          updatedAt
+          user {
+            id
+            email
+            name
+            countryCode
+            phoneNumber
+            fullPhoneNumber
+            paymentType
+            balance
+            purchaseCount
+            freeDrinks
+            coins
+            stamps
+            createdAt
+            updatedAt
+            deposits {
+              items {
+                id
+                userID
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            payments {
+              items {
+                id
+                userID
+                stamps
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      payments {
+        items {
+          id
+          userID
+          stamps
+          amount
+          createdAt
+          updatedAt
+          user {
+            id
+            email
+            name
+            countryCode
+            phoneNumber
+            fullPhoneNumber
+            paymentType
+            balance
+            purchaseCount
+            freeDrinks
+            coins
+            stamps
+            createdAt
+            updatedAt
+            deposits {
+              items {
+                id
+                userID
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            payments {
+              items {
+                id
+                userID
+                stamps
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -26,7 +237,9 @@ export const onUpdateUsers = /* GraphQL */ `
       id
       email
       name
+      countryCode
       phoneNumber
+      fullPhoneNumber
       paymentType
       balance
       purchaseCount
@@ -35,6 +248,215 @@ export const onUpdateUsers = /* GraphQL */ `
       stamps
       createdAt
       updatedAt
+      deposits {
+        items {
+          id
+          userID
+          amount
+          createdAt
+          updatedAt
+          user {
+            id
+            email
+            name
+            countryCode
+            phoneNumber
+            fullPhoneNumber
+            paymentType
+            balance
+            purchaseCount
+            freeDrinks
+            coins
+            stamps
+            createdAt
+            updatedAt
+            deposits {
+              items {
+                id
+                userID
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            payments {
+              items {
+                id
+                userID
+                stamps
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      payments {
+        items {
+          id
+          userID
+          stamps
+          amount
+          createdAt
+          updatedAt
+          user {
+            id
+            email
+            name
+            countryCode
+            phoneNumber
+            fullPhoneNumber
+            paymentType
+            balance
+            purchaseCount
+            freeDrinks
+            coins
+            stamps
+            createdAt
+            updatedAt
+            deposits {
+              items {
+                id
+                userID
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            payments {
+              items {
+                id
+                userID
+                stamps
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -45,7 +467,9 @@ export const onDeleteUsers = /* GraphQL */ `
       id
       email
       name
+      countryCode
       phoneNumber
+      fullPhoneNumber
       paymentType
       balance
       purchaseCount
@@ -54,6 +478,215 @@ export const onDeleteUsers = /* GraphQL */ `
       stamps
       createdAt
       updatedAt
+      deposits {
+        items {
+          id
+          userID
+          amount
+          createdAt
+          updatedAt
+          user {
+            id
+            email
+            name
+            countryCode
+            phoneNumber
+            fullPhoneNumber
+            paymentType
+            balance
+            purchaseCount
+            freeDrinks
+            coins
+            stamps
+            createdAt
+            updatedAt
+            deposits {
+              items {
+                id
+                userID
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            payments {
+              items {
+                id
+                userID
+                stamps
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      payments {
+        items {
+          id
+          userID
+          stamps
+          amount
+          createdAt
+          updatedAt
+          user {
+            id
+            email
+            name
+            countryCode
+            phoneNumber
+            fullPhoneNumber
+            paymentType
+            balance
+            purchaseCount
+            freeDrinks
+            coins
+            stamps
+            createdAt
+            updatedAt
+            deposits {
+              items {
+                id
+                userID
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            payments {
+              items {
+                id
+                userID
+                stamps
+                amount
+                createdAt
+                updatedAt
+                user {
+                  id
+                  email
+                  name
+                  countryCode
+                  phoneNumber
+                  fullPhoneNumber
+                  paymentType
+                  balance
+                  purchaseCount
+                  freeDrinks
+                  coins
+                  stamps
+                  createdAt
+                  updatedAt
+                  deposits {
+                    nextToken
+                    __typename
+                  }
+                  payments {
+                    nextToken
+                    __typename
+                  }
+                  __typename
+                }
+                __typename
+              }
+              nextToken
+              __typename
+            }
+            __typename
+          }
+          __typename
+        }
+        nextToken
+        __typename
+      }
       __typename
     }
   }
@@ -64,9 +697,202 @@ export const onCreateDeposits = /* GraphQL */ `
       id
       userID
       amount
-      paymentType
       createdAt
       updatedAt
+      user {
+        id
+        email
+        name
+        countryCode
+        phoneNumber
+        fullPhoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
       __typename
     }
   }
@@ -77,9 +903,202 @@ export const onUpdateDeposits = /* GraphQL */ `
       id
       userID
       amount
-      paymentType
       createdAt
       updatedAt
+      user {
+        id
+        email
+        name
+        countryCode
+        phoneNumber
+        fullPhoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
       __typename
     }
   }
@@ -90,9 +1109,202 @@ export const onDeleteDeposits = /* GraphQL */ `
       id
       userID
       amount
-      paymentType
       createdAt
       updatedAt
+      user {
+        id
+        email
+        name
+        countryCode
+        phoneNumber
+        fullPhoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
       __typename
     }
   }
@@ -106,6 +1318,200 @@ export const onCreatePayments = /* GraphQL */ `
       amount
       createdAt
       updatedAt
+      user {
+        id
+        email
+        name
+        countryCode
+        phoneNumber
+        fullPhoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
       __typename
     }
   }
@@ -119,6 +1525,200 @@ export const onUpdatePayments = /* GraphQL */ `
       amount
       createdAt
       updatedAt
+      user {
+        id
+        email
+        name
+        countryCode
+        phoneNumber
+        fullPhoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
       __typename
     }
   }
@@ -132,6 +1732,200 @@ export const onDeletePayments = /* GraphQL */ `
       amount
       createdAt
       updatedAt
+      user {
+        id
+        email
+        name
+        countryCode
+        phoneNumber
+        fullPhoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              countryCode
+              phoneNumber
+              fullPhoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    countryCode
+                    phoneNumber
+                    fullPhoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
       __typename
     }
   }

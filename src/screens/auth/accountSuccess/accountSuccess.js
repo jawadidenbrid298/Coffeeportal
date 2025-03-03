@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Animated} from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
+import {styles} from './accountSuccessStyles';
 
 export default function AccountSuccess({navigation}) {
   const scaleAnim = useRef(new Animated.Value(0)).current; // Initial scale of 0
@@ -35,57 +36,3 @@ export default function AccountSuccess({navigation}) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center'
-  },
-  content: {
-    padding: 24,
-    flexDirection: 'column',
-    gap: 40,
-    alignItems: 'center'
-  },
-  successContainer: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  iconBorder: {
-    borderWidth: 4,
-    borderColor: '#4CAF50',
-    borderRadius: 40,
-    padding: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '400',
-    color: '#444',
-    marginBottom: 12,
-    textAlign: 'center'
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    opacity: 0.8,
-    textAlign: 'center',
-    lineHeight: 20
-  },
-  loginButton: {
-    backgroundColor: '#65100D',
-    borderRadius: 8,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    width: '100%'
-  },
-  loginButtonText: {
-    color: 'rgba(255, 255, 255, 1)',
-    fontSize: 16,
-    fontWeight: '400'
-  }
-});

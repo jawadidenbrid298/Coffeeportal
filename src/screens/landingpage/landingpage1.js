@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, Image, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
+import {View, Text, Image, ScrollView, RefreshControl, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {AntDesign, Feather} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
@@ -16,21 +16,29 @@ const LandingPage = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [userData, setUserData] = useState(null);
   const [showFreeDrink, setShowFreeDrink] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const navigation = useNavigation();
 
   const fetchUser = async () => {
     try {
-      const {userId} = await getCurrentUser();
+      const user = await getCurrentUser();
+      if (!user) {
+        navigation.reset({index: 0, routes: [{name: 'login'}]});
+        return;
+      }
+
       const response = await client.graphql({
         query: getUsers,
-        variables: {id: userId}
+        variables: {id: user.userId}
       });
 
       setUserData(response.data.getUsers);
-      console.log(response.data.getUsers);
     } catch (error) {
       console.error('Error fetching user:', error);
+      navigation.reset({index: 0, routes: [{name: 'login'}]});
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,23 +52,13 @@ const LandingPage = () => {
     setRefreshing(false);
   }, []);
 
-  const handleSettingsNavigation = () => {
-    setDropdownVisible(false);
-    navigation.navigate('settings');
-  };
-
-  const renderDropdown = () => {
-    if (!dropdownVisible) return null;
-
+  if (loading) {
     return (
-      <View style={styles.dropdownMenu}>
-        <TouchableOpacity style={styles.dropdownItem} onPress={handleSettingsNavigation}>
-          <Feather name='settings' size={20} color='#333' />
-          <Text style={styles.dropdownText}>Settings</Text>
-        </TouchableOpacity>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size='large' color='#65100D' />
       </View>
     );
-  };
+  }
 
   return (
     <ScrollView
@@ -75,15 +73,22 @@ const LandingPage = () => {
 
             <Text style={styles.greeting}>Hi, {userData?.name || 'User'}</Text>
           </View>
-          <Text style={styles.phone}>{userData?.phoneNumber || '+XX-XXX-XXXXXXX'}</Text>
+          <Text style={styles.phone}>{userData?.fullPhoneNumber || '+XX-XXX-XXXXXXX'}</Text>
 
-          {renderDropdown()}
+          {dropdownVisible && (
+            <View style={styles.dropdownMenu}>
+              <TouchableOpacity style={styles.dropdownItem} onPress={() => navigation.navigate('settings')}>
+                <Feather name='settings' size={20} color='#333' />
+                <Text style={styles.dropdownText}>Settings</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         <View style={styles.statsGrid}>
           {[
             {label: 'Purchased Drinks', count: userData?.purchaseCount || 0, total: '/ 10'},
-            {label: 'Total Drink', count: userData?.stamps || 0, total: ' Drinks'}
+            {label: 'Total Drink', count: userData?.freeDrinks || 0, total: ' Drinks'}
           ].map((item, index) => (
             <React.Fragment key={index}>
               <View style={styles.statBox}>

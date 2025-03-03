@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, TextInput, Pressable, Alert, ActivityIndicator} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {signIn} from 'aws-amplify/auth';
-import MyField from '../../components/shared/MyField';
+import {signIn, getCurrentUser} from 'aws-amplify/auth';
+import MyField from '../../../components/shared/MyField';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {styles} from './loginStyles';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -16,34 +17,45 @@ export default function LoginScreen({navigation}) {
   const [loginError, setLoginError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Check if user is already signed in
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const user = await getCurrentUser();
+        if (user) {
+          navigation.replace('landingpage'); // Navigate to your protected screen
+        }
+      } catch (error) {
+        console.log('User not signed in:', error);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
   const handleSignIn = async (values, {setSubmitting}) => {
     setLoginError('');
-    setLoading(true); // Show spinner
+    setLoading(true);
     try {
       const {isSignedIn, nextStep} = await signIn({
         username: values.email,
         password: values.password
       });
-      console.log('Sign-in response:', {isSignedIn, nextStep});
 
       if (isSignedIn) {
-        navigation.navigate('landingpage');
+        navigation.replace('landingpage'); // Navigate to the protected screen
       } else {
         Alert.alert('Login Incomplete', JSON.stringify(nextStep, null, 2));
       }
     } catch (error) {
-      console.error('Sign-in error details:', error.underlyingError);
-      console.log('Error code:', error.code);
-      console.log('Error message:', error.message);
       handleAuthError(error);
     } finally {
       setSubmitting(false);
-      setLoading(false); // Hide spinner
+      setLoading(false);
     }
   };
 
   const handleAuthError = (error) => {
-    console.log('Error details:', error);
     let message = 'An unknown error occurred. Please try again.';
     if (error.code === 'UserNotFoundException') {
       message = 'No user found with this email.';
@@ -133,10 +145,6 @@ export default function LoginScreen({navigation}) {
                   <Text style={styles.signupLink}>Sign Up</Text>
                 </TouchableOpacity>
               </View>
-
-              <TouchableOpacity onPress={() => navigation.navigate('landingpage')}>
-                <Text style={styles.landingPageLink}>Take me to landing page</Text>
-              </TouchableOpacity>
             </View>
           )}
         </Formik>
@@ -144,104 +152,3 @@ export default function LoginScreen({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 50,
-    maxWidth: 700,
-    // alignItems:"center",
-    // justifyContent:"center",
-    padding: 20
-  },
-  header: {
-    marginTop: 60,
-    marginBottom: 30
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '400',
-    color: '#313131',
-    marginBottom: 8
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    fontWeight: '400'
-  },
-  form: {
-    width: '100%'
-  },
-  forgotPassword: {
-    color: '#65100D',
-    fontSize: 14,
-    textAlign: 'right',
-    marginBottom: 24,
-    textDecorationLine: 'underline'
-  },
-  loginButton: {
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 24,
-    padding: 16,
-    flexDirection: 'row'
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600'
-  },
-  inputContainer: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(229, 231, 235, 1)',
-    borderRadius: 12,
-    marginBottom: 16,
-    height: 48,
-    width: '100%',
-    gap: 16,
-    paddingHorizontal: 12,
-    backgroundColor: 'white'
-  },
-  input: {
-    fontSize: 16,
-    color: '#333'
-  },
-  passwordInput: {
-    width: '100%',
-    marginRight: 8
-  },
-  errorText: {
-    color: '#ff3333',
-    fontSize: 12,
-    marginTop: -12,
-    marginBottom: 16,
-    marginLeft: 4
-  },
-  signupContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  signupText: {
-    color: '#313131',
-    fontSize: 14
-  },
-  signupLink: {
-    color: '#65100D',
-    fontSize: 14,
-    fontWeight: '400',
-    textDecorationLine: 'underline'
-  },
-  landingPageLink: {
-    color: '#65100D',
-    fontSize: 14,
-    fontWeight: '400',
-    textAlign: 'center',
-    marginTop: 16
-  }
-});

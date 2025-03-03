@@ -3,6 +3,7 @@ import {View, TouchableOpacity, Text, StyleSheet, Alert, Platform} from 'react-n
 import {signOut} from 'aws-amplify/auth';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+import {styles} from './signoutStyles';
 
 export default function SignOutButton() {
   const navigation = useNavigation();
@@ -39,29 +40,3 @@ export default function SignOutButton() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
-  },
-
-  signOutButton: {
-    marginTop: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#B91C1C',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    width: '100%',
-    justifyContent: 'space-between'
-  },
-
-  signOutText: {
-    fontSize: 20,
-    color: 'white',
-
-    fontWeight: 'bold'
-  }
-});
