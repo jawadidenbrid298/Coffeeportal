@@ -1,3 +1,213 @@
+// import {StyleSheet, Animated, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+// import React, {useState, useEffect, useRef} from 'react';
+// import {getCurrentUser, updatePassword, fetchUserAttributes, updateUserAttributes} from 'aws-amplify/auth';
+// import {AntDesign} from '@expo/vector-icons';
+// import SignOutButton from '../../auth/signout/signout';
+// import {useNavigation} from '@react-navigation/native';
+// import CustomButton from '../../../components/shared/CustomButton';
+// import Toast from 'react-native-toast-message';
+// import MyField from '../../../components/shared/MyField';
+// import {styles} from './SettingsScreenStyle';
+
+// const SettingsScreen = () => {
+//   const [userData, setUserData] = useState({name: '', phoneNumber: '', countryCode: ''});
+//   const [passwords, setPasswords] = useState({oldPassword: '', newPassword: ''});
+//   const [expandedSection, setExpandedSection] = useState(null);
+//   const profileAnim = useRef(new Animated.Value(0)).current;
+//   const passwordAnim = useRef(new Animated.Value(0)).current;
+//   const navigation = useNavigation();
+
+//   // Loading states
+//   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
+//   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
+//   useEffect(() => {
+//     let isMounted = true;
+
+//     const fetchUserData = async () => {
+//       try {
+//         const attributes = await fetchUserAttributes();
+//         if (isMounted) {
+//           setUserData({
+//             name: attributes.name || '',
+//             phoneNumber: attributes.phone_number || '',
+//             countryCode: attributes['custom:countryCode'] || 'US'
+//           });
+//         }
+//       } catch (error) {
+//         console.error('Error fetching user data:', error);
+//       }
+//     };
+
+//     fetchUserData();
+//     return () => {
+//       isMounted = false;
+//     }; // Cleanup function
+//   }, []);
+
+//   const toggleSection = (section) => {
+//     const animation = section === 'profile' ? profileAnim : passwordAnim;
+//     const otherAnimation = section === 'profile' ? passwordAnim : profileAnim;
+
+//     if (expandedSection === section) {
+//       Animated.timing(animation, {
+//         toValue: 0,
+//         duration: 300,
+//         useNativeDriver: false
+//       }).start(() => {
+//         requestAnimationFrame(() => setExpandedSection(null)); // Safe state update
+//       });
+//     } else {
+//       Animated.timing(otherAnimation, {
+//         toValue: 0,
+//         duration: 300,
+//         useNativeDriver: false
+//       }).start(() => {
+//         requestAnimationFrame(() => {
+//           setExpandedSection(section);
+//           Animated.timing(animation, {
+//             toValue: 1,
+//             duration: 300,
+//             useNativeDriver: false
+//           }).start();
+//         });
+//       });
+//     }
+//   };
+
+//   const handleUpdateUser = async () => {
+//     if (!userData.name || !userData.phoneNumber) {
+//       Toast.show({type: 'error', text1: 'Name and phone number are required.'});
+//       return;
+//     }
+
+//     setIsUpdatingUser(true);
+//     try {
+//       await updateUserAttributes({
+//         name: userData.name.trim(),
+//         phone_number: userData.phoneNumber.trim(),
+//         'custom:countryCode': userData.countryCode
+//       });
+
+//       Toast.show({type: 'success', text1: 'Profile updated successfully!'});
+//     } catch (error) {
+//       console.error('Error updating user:', error);
+//       Toast.show({type: 'error', text1: 'Failed to update profile.'});
+//     } finally {
+//       setIsUpdatingUser(false);
+//     }
+//   };
+
+//   const handleUpdatePassword = async () => {
+//     setIsUpdatingPassword(true);
+//     try {
+//       if (!passwords.oldPassword || !passwords.newPassword) {
+//         Toast.show({type: 'error', text1: 'Please enter both old and new passwords.'});
+//         return;
+//       }
+//       await updatePassword({oldPassword: passwords.oldPassword, newPassword: passwords.newPassword});
+//       Toast.show({type: 'success', text1: 'Password updated successfully!'});
+//       setExpandedSection(null);
+//       setPasswords({oldPassword: '', newPassword: ''});
+//     } catch (err) {
+//       console.error('Error updating password:', err);
+//       Toast.show({type: 'error', text1: 'Failed to update password.'});
+//     } finally {
+//       setIsUpdatingPassword(false);
+//     }
+//   };
+
+//   return (
+//     <ScrollView>
+//       <View style={styles.container}>
+//         <TouchableOpacity onPress={() => navigation.navigate('landingpage')} style={styles.backButton}>
+//           <AntDesign name='arrowleft' size={24} color='black' />
+//         </TouchableOpacity>
+
+//         <View style={styles.header}>
+//           <AntDesign name='setting' size={24} color='black' style={{marginRight: 8}} />
+//           <Text style={styles.headerText}>Settings</Text>
+//         </View>
+
+//         <View style={styles.sectionContainer}>
+//           <TouchableOpacity style={styles.sectionHeader} onPress={() => toggleSection('profile')}>
+//             <Text style={styles.label}>Profile</Text>
+//             <AntDesign name={expandedSection === 'profile' ? 'up' : 'down'} size={20} color='gray' />
+//           </TouchableOpacity>
+//           <Animated.View
+//             style={{
+//               height: profileAnim.interpolate({inputRange: [0, 1], outputRange: [0, 270]}),
+//               overflow: 'hidden'
+//             }}>
+//             <View style={styles.dropdownContainer}>
+//               <MyField
+//                 label='Name'
+//                 placeholder='Enter name'
+//                 value={userData.name}
+//                 onChangeText={(text) => setUserData({...userData, name: text})} // FIXE
+//                 icon='account-outline'
+//               />
+
+//               <MyField
+//                 label='Phone Number'
+//                 placeholder='Enter phone number'
+//                 keyboardType='phone-pad'
+//                 value={userData.phoneNumber}
+//                 onChangeText={(text) => setUserData({...userData, phoneNumber: text})}
+//                 icon='phone-outline'
+//                 isPhoneField
+//                 countryCode={userData.countryCode}
+//                 onCountryChange={(code) => setUserData({...userData, countryCode: code})}
+//               />
+
+//               <CustomButton title='Save Changes' onPress={handleUpdateUser} isLoading={isUpdatingUser} />
+//             </View>
+//           </Animated.View>
+//         </View>
+
+//         <View style={styles.sectionContainer}>
+//           <TouchableOpacity style={styles.sectionHeader} onPress={() => toggleSection('password')}>
+//             <Text style={styles.label}>Change Password</Text>
+//             <AntDesign name={expandedSection === 'password' ? 'up' : 'down'} size={20} color='gray' />
+//           </TouchableOpacity>
+//           <Animated.View
+//             style={{
+//               height: passwordAnim.interpolate({inputRange: [0, 1], outputRange: [0, 270]}),
+//               overflow: 'hidden'
+//             }}>
+//             <View style={styles.dropdownContainer}>
+//               <MyField
+//                 label='Old Password'
+//                 placeholder='Old Password'
+//                 secureTextEntry
+//                 value={passwords.oldPassword}
+//                 onChange={(text) => setPasswords({...passwords, oldPassword: text})}
+//                 icon='lock-outline'
+//               />
+
+//               <MyField
+//                 label='New Password'
+//                 placeholder='New Password'
+//                 secureTextEntry
+//                 value={passwords.newPassword}
+//                 onChange={(text) => setPasswords({...passwords, newPassword: text})}
+//                 icon='lock-check-outline'
+//               />
+
+//               <CustomButton title='Update Password' onPress={handleUpdatePassword} isLoading={isUpdatingPassword} />
+//             </View>
+//           </Animated.View>
+//         </View>
+
+//         <SignOutButton />
+//         <Toast />
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// export default SettingsScreen;
+
 import {StyleSheet, Animated, Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {getCurrentUser, updatePassword} from 'aws-amplify/auth';
@@ -5,7 +215,7 @@ import {generateClient} from '@aws-amplify/api';
 import {getUsers} from '../../../graphql/queries';
 import {updateUsers} from '../../../graphql/mutations';
 import {AntDesign} from '@expo/vector-icons';
-import SignOutButton from '../../auth/signout';
+import SignOutButton from '../../auth/signout/signout';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from '../../../components/shared/CustomButton';
 import Toast from 'react-native-toast-message';

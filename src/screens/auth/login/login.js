@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, TextInput, Pressable, Alert, ActivityIndicator} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, Pressable, Alert, ActivityIndicator} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {signIn, getCurrentUser} from 'aws-amplify/auth';
 import MyField from '../../../components/shared/MyField';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {styles} from './loginStyles';
+import Toast from 'react-native-toast-message';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -17,19 +18,17 @@ export default function LoginScreen({navigation}) {
   const [loginError, setLoginError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Check if user is already signed in
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
         const user = await getCurrentUser();
         if (user) {
-          navigation.replace('landingpage'); // Navigate to your protected screen
+          navigation.replace('landingpage');
         }
       } catch (error) {
         console.log('User not signed in:', error);
       }
     };
-
     checkAuthStatus();
   }, []);
 
@@ -41,9 +40,8 @@ export default function LoginScreen({navigation}) {
         username: values.email,
         password: values.password
       });
-
       if (isSignedIn) {
-        navigation.replace('landingpage'); // Navigate to the protected screen
+        navigation.replace('landingpage');
       } else {
         Alert.alert('Login Incomplete', JSON.stringify(nextStep, null, 2));
       }
@@ -69,6 +67,11 @@ export default function LoginScreen({navigation}) {
       message = error.message;
     }
     setLoginError(message);
+    Toast.show({
+      type: 'error',
+      text1: 'Login Error',
+      text2: message
+    });
   };
 
   return (
@@ -105,9 +108,8 @@ export default function LoginScreen({navigation}) {
                   onBlur={() => setTouched({...touched, password: true})}
                   secureTextEntry={!showPassword}
                 />
-                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                <Pressable style={styles.eyeIcon} onPress={() => setShowPassword(!showPassword)}>
                   <MaterialCommunityIcons
-                    style={{position: 'absolute', right: 10, top: -12, width: 24}}
                     name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                     size={24}
                     color={values.password ? '#65100D' : '#666'}
@@ -123,13 +125,7 @@ export default function LoginScreen({navigation}) {
               {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
 
               <TouchableOpacity
-                style={[
-                  styles.loginButton,
-                  {
-                    backgroundColor: '#65100D',
-                    opacity: isValid && dirty ? 1 : 0.6
-                  }
-                ]}
+                style={[styles.loginButton, {backgroundColor: '#65100D', opacity: isValid && dirty ? 1 : 0.6}]}
                 onPress={handleSubmit}
                 disabled={!(isValid && dirty) || loading}>
                 {loading ? (
@@ -144,11 +140,15 @@ export default function LoginScreen({navigation}) {
                 <TouchableOpacity onPress={() => navigation.navigate('signup')}>
                   <Text style={styles.signupLink}>Sign Up</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('landingpage')}>
+                  <Text style={styles.signupLink}>Landing page</Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}
         </Formik>
       </View>
+      <Toast />
     </View>
   );
 }

@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E6E6E6'
+    backgroundColor: '#ffffff'
   },
   content: {
     flex: 1,
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   sendButton: {
-    backgroundColor: '#C67C4E',
+    backgroundColor: '#65100D',
     borderRadius: 8,
     height: 50,
     justifyContent: 'center',

@@ -1,21 +1,26 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ActivityIndicator} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import MyField from '../../../components/shared/MyField';
 import {resetPassword} from 'aws-amplify/auth';
 import {styles} from './forgotPasswordStyles';
+import Toast from 'react-native-toast-message';
+
 const ResetSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Email is required')
 });
 
-async function handleResetPassword(username, navigation) {
+async function handleResetPassword(username, navigation, setLoading) {
   try {
+    setLoading(true);
     const output = await resetPassword({username});
-    handleResetPasswordNextSteps(output, navigation, username); // Pass original email
+    handleResetPasswordNextSteps(output, navigation, username);
   } catch (error) {
-    console.log(error);
+    Toast.show({type: 'error', text1: 'Error', text2: error.message});
+  } finally {
+    setLoading(false);
   }
 }
 
@@ -24,7 +29,6 @@ function handleResetPasswordNextSteps(output, navigation, email) {
   switch (nextStep.resetPasswordStep) {
     case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
       console.log(`Confirmation code was sent to ${nextStep.codeDeliveryDetails.deliveryMedium}`);
-      // Pass the original email instead of codeDeliveryDetails.destination
       navigation.navigate('verifyOtp', {email, from: 'forgotPassword'});
       break;
     case 'DONE':
@@ -34,6 +38,8 @@ function handleResetPasswordNextSteps(output, navigation, email) {
 }
 
 export default function ResetPassword({navigation}) {
+  const [loading, setLoading] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -47,13 +53,10 @@ export default function ResetPassword({navigation}) {
         </View>
 
         <Formik
-          initialValues={{email: 'onamsarker@email.com'}}
+          initialValues={{email: ''}}
           validationSchema={ResetSchema}
-          onSubmit={(values) => {
-            console.log(values);
-            handleResetPassword(values.email, navigation);
-          }}>
-          {({handleSubmit, values, errors, touched, handleChange, handleBlur}) => (
+          onSubmit={(values) => handleResetPassword(values.email, navigation, setLoading)}>
+          {({handleSubmit, values, errors, touched, handleChange, handleBlur, isValid, dirty}) => (
             <View style={styles.form}>
               <MyField
                 label='Email'
@@ -66,14 +69,21 @@ export default function ResetPassword({navigation}) {
                 touched={touched.email}
                 keyboardType='email-address'
               />
-
-              <TouchableOpacity style={styles.sendButton} onPress={() => handleSubmit()}>
-                <Text style={styles.sendButtonText}>Send Link</Text>
+              <TouchableOpacity
+                style={[styles.sendButton, {backgroundColor: '#65100D', opacity: isValid && dirty ? 1 : 0.6}]}
+                onPress={handleSubmit}
+                disabled={loading}>
+                {loading ? (
+                  <ActivityIndicator size='small' color='#FFF' />
+                ) : (
+                  <Text style={styles.sendButtonText}>Send Link</Text>
+                )}
               </TouchableOpacity>
             </View>
           )}
         </Formik>
       </View>
+      <Toast />
     </SafeAreaView>
   );
 }

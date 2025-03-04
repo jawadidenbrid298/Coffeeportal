@@ -97,5 +97,12 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     textAlign: 'center',
     marginTop: 16
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 12,
+    top: '50%',
+    transform: [{translateY: -12}],
+    zIndex: 1
   }
 });

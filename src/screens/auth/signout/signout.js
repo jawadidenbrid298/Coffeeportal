@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, Alert, Platform} from 'react-native';
+import React, {useState} from 'react';
+import {View, TouchableOpacity, Text, StyleSheet, Alert, Platform, ActivityIndicator} from 'react-native';
 import {signOut} from 'aws-amplify/auth';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
@@ -7,13 +7,18 @@ import {styles} from './signoutStyles';
 
 export default function SignOutButton() {
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   async function handleSignOut() {
+    setLoading(true);
     try {
       await signOut();
       navigation.navigate('login');
     } catch (error) {
       console.log('Error signing out: ', error);
+      Alert.alert('Error', 'Failed to sign out. Please try again.');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -24,18 +29,31 @@ export default function SignOutButton() {
         handleSignOut();
       }
     } else {
-      Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
-        {text: 'Cancel', style: 'cancel'},
-        {text: 'Yes', onPress: handleSignOut}
-      ]);
+      Alert.alert(
+        'Sign Out',
+        loading ? 'Signing out...' : 'Are you sure you want to sign out?',
+        loading
+          ? []
+          : [
+              {text: 'Cancel', style: 'cancel'},
+              {text: 'Yes', onPress: handleSignOut}
+            ],
+        {cancelable: false}
+      );
     }
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={confirmSignOut} style={styles.signOutButton}>
-        <Text style={styles.signOutText}>Sign Out</Text>
-        <MaterialIcons name='logout' size={20} color='white' />
+      <TouchableOpacity onPress={confirmSignOut} style={styles.signOutButton} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator size='small' color='white' />
+        ) : (
+          <>
+            <Text style={styles.signOutText}>Sign Out</Text>
+            <MaterialIcons name='logout' size={20} color='white' />
+          </>
+        )}
       </TouchableOpacity>
     </View>
   );

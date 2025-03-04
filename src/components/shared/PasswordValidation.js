@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
-export default function PasswordValidation({password}) {
+export default function PasswordValidation({password = '', confirmPassword = ''}) {
   const [allValid, setAllValid] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(1));
   const [isVisible, setIsVisible] = useState(true);
@@ -23,27 +23,26 @@ export default function PasswordValidation({password}) {
   ];
 
   const allRulesValid = validationRules.every((rule) => rule.isValid);
-
   useEffect(() => {
+    console.log('Password:', password);
+    console.log('Confirm Password:', confirmPassword);
+
     if (allRulesValid) {
       setAllValid(true);
 
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 1000,
-        useNativeDriver: true,
-
-        onComplete: () => {
-          setIsVisible(false);
-        }
-      }).start();
+        useNativeDriver: true
+      }).start(() => {
+        setIsVisible(false);
+      });
     } else {
       setAllValid(false);
-
       fadeAnim.setValue(1);
       setIsVisible(true);
     }
-  }, [allRulesValid, fadeAnim]);
+  }, [allRulesValid, fadeAnim, password, confirmPassword]); // Ensure effect runs when either password changes
 
   if (!password || (allValid && fadeAnim._value === 0)) return null;
 
@@ -61,9 +60,7 @@ export default function PasswordValidation({password}) {
         </View>
       ))}
     </Animated.View>
-  ) : (
-    <View />
-  );
+  ) : null;
 }
 
 const styles = StyleSheet.create({
@@ -74,10 +71,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2
@@ -97,6 +91,6 @@ const styles = StyleSheet.create({
     color: '#6B7280'
   },
   invalidRule: {
-    color: '#6B7280'
+    color: '#EF4444'
   }
 });

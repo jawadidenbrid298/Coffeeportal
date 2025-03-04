@@ -16,10 +16,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   iconBorder: {
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: '#4CAF50',
-    borderRadius: 40,
-    padding: 2,
+    borderRadius: 120,
+    padding: 6,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     lineHeight: 20
   },
   loginButton: {
-    backgroundColor: '#C67C4E',
+    backgroundColor: '#65100D',
     borderRadius: 8,
     height: 56,
     justifyContent: 'center',

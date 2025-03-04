@@ -16,10 +16,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   iconBorder: {
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: '#4CAF50',
-    borderRadius: 40,
-    padding: 2,
+    borderRadius: 140,
+    padding: 6,
     justifyContent: 'center',
     alignItems: 'center'
   },
