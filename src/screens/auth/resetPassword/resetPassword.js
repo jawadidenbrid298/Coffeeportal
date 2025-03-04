@@ -95,7 +95,7 @@ export default function NewPassword({navigation, route}) {
                 {loading ? (
                   <ActivityIndicator size='small' color='#fff' />
                 ) : (
-                  <Text style={styles.confirmButtonText}>Confirm</Text>
+                  <Text style={styles.confirmButtonText}>Confirm Changes</Text>
                 )}
               </TouchableOpacity>
             </View>
