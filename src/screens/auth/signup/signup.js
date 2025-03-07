@@ -50,7 +50,7 @@ export default function SignUpScreen({navigation}) {
             email: values.email,
             phone_number: combinedPhoneNumber,
             name: values.nickname,
-            'custom:type': 'Admin',
+            'custom:type': 'User',
             'custom:countryCode': `+${callingCode}`,
             'custom:phoneNumber': values.phone.replace(/\D/g, '')
           },

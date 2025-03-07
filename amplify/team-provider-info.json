@@ -18,12 +18,15 @@
       "function": {
         "addDummyDataInUsers": {
           "deploymentBucketName": "amplify-coffeeportal-dev-cb3f4-deployment",
-          "s3Key": "amplify-builds/addDummyDataInUsers-65657867497633333665-build.zip"
+          "s3Key": "amplify-builds/addDummyDataInUsers-4e4d505037424b774d51-build.zip"
         },
         "saveRegisteredUser": {
           "deploymentBucketName": "amplify-coffeeportal-dev-cb3f4-deployment",
           "s3Key": "amplify-builds/saveRegisteredUser-41636e45526f4a747a39-build.zip"
         }
+      },
+      "api": {
+        "coffeeportal": {}
       }
     }
   }

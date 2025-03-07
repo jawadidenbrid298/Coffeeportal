@@ -77,7 +77,7 @@ const LandingPage = () => {
 
           {dropdownVisible && (
             <View style={styles.dropdownMenu}>
-              <TouchableOpacity style={styles.dropdownItem} onPress={() => navigation.navigate('settings')}>
+              <TouchableOpacity style={styles.dropdownItem} onPress={() => navigation.navigate('settings', {userData})}>
                 <Feather name='settings' size={20} color='#333' />
                 <Text style={styles.dropdownText}>Settings</Text>
               </TouchableOpacity>

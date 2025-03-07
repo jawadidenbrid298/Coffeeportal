@@ -16,9 +16,9 @@ const MyField = ({
   keyboardType = 'default',
   autoCapitalize = 'none',
   isPhoneField = false,
-  countryCode = 'US', // Default to 'US'
+  countryCode = 'US',
   onCountryChange,
-  callingCode,
+  callingCode = '+1',
   onCallingCodeChange
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,9 +27,9 @@ const MyField = ({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Sync props with local state
-    if (countryCode) setSelectedCountry(countryCode);
-    if (callingCode) setLocalCallingCode(callingCode);
+    setSelectedCountry(countryCode);
+
+    setLocalCallingCode(callingCode);
   }, [countryCode, callingCode]);
 
   return (
@@ -48,8 +48,10 @@ const MyField = ({
               visible={visible}
               countryCode={selectedCountry}
               onSelect={(country) => {
+                console.log('flaggggggg', country.cca2);
                 setSelectedCountry(country.cca2);
-                const newCallingCode = country.callingCode?.[0] || '';
+
+                const newCallingCode = `+${country.callingCode?.[0] || '1'}`;
                 setLocalCallingCode(newCallingCode);
 
                 if (onCountryChange) onCountryChange(country.cca2);
@@ -57,7 +59,7 @@ const MyField = ({
               }}
               onClose={() => setVisible(false)}
             />
-            <Text style={styles.callingCode}>+{localCallingCode}</Text>
+            <Text style={styles.callingCode}>{localCallingCode}</Text>
           </Pressable>
         )}
 

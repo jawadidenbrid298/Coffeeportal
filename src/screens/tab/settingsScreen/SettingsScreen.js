@@ -1,12 +1,12 @@
 import {StyleSheet, Animated, Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
-import {getCurrentUser, updatePassword, fetchAuthSession} from 'aws-amplify/auth';
+import {getCurrentUser, updatePassword, fetchUserAttributes, fetchAuthSession} from 'aws-amplify/auth';
 import {generateClient} from '@aws-amplify/api';
 import {getUsers} from '../../../graphql/queries';
 import {updateUsers} from '../../../graphql/mutations';
 import {AntDesign} from '@expo/vector-icons';
 import SignOutButton from '../../auth/signout/signout';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import CustomButton from '../../../components/shared/CustomButton';
 import Toast from 'react-native-toast-message';
 import MyField from '../../../components/shared/MyField';
@@ -16,47 +16,56 @@ import {updateUserAttributes} from 'aws-amplify/auth';
 const client = generateClient();
 
 const SettingsScreen = () => {
-  const [userData, setUserData] = useState({id: '', name: '', phoneNumber: '', email: ''});
+  const route = useRoute();
+
+  const [userData, setUserData] = useState(route.params?.userData || null);
   const [passwords, setPasswords] = useState({oldPassword: '', newPassword: ''});
   const [expandedSection, setExpandedSection] = useState(null);
   const profileAnim = useRef(new Animated.Value(0)).current;
   const passwordAnim = useRef(new Animated.Value(0)).current;
+
   const navigation = useNavigation();
 
-  // Loading states
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
   const [countryCode, setCountryCode] = useState('US');
   const [callingCode, setCallingCode] = useState('1');
+
   useEffect(() => {
-    const fetchUserData = async () => {
+    console.log('userdataaaa', userData);
+
+    // if (!userData) {
+    //   fetchUserData(); // Fetch if data isn't passed from navigation
+    // }
+  }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
       try {
-        const {username, attributes} = await getCurrentUser();
-        const session = await fetchAuthSession();
-        console.log('Session:', session);
+        const user = await fetchUserAttributes();
+        console.log('Fetched user:', user);
 
-        if (attributes) {
-          const phoneNumber = attributes.phone_number || '';
-          const countryCode = attributes['custom:countryCode'] || '';
-          const customPhoneNumber = attributes['custom:phoneNumber'] || '';
-
-          const localPhoneNumber = phoneNumber.replace(new RegExp(`^\+${countryCode}`), '');
-
-          setUserData({
-            id: username,
-            name: attributes.name || '',
-            phoneNumber: localPhoneNumber
-          });
-
-          setCountryCode(countryCode);
-          setCallingCode(countryCode.replace('+', ''));
+        if (!user) {
+          navigation.reset({index: 0, routes: [{name: 'login'}]});
+          return;
         }
+
+        // const response = await client.graphql({
+        //   query: getUsers,
+        //   variables: {id: user.userId || user.attributes?.sub}
+        // });
+
+        // setUserData(response.data.getUsers);
+
+        const code = user['custom:countryCode'];
+        setCallingCode(code);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user:', error);
+        navigation.reset({index: 0, routes: [{name: 'login'}]});
       }
     };
 
-    fetchUserData();
+    fetchUser();
   }, []);
 
   const toggleSection = (section) => {
@@ -64,20 +73,17 @@ const SettingsScreen = () => {
     const otherAnimation = section === 'profile' ? passwordAnim : profileAnim;
 
     if (expandedSection === section) {
-      // Close the currently opened section
       Animated.timing(animation, {
         toValue: 0,
         duration: 300,
         useNativeDriver: false
       }).start(() => setExpandedSection(null));
     } else {
-      // Close the other section first
       Animated.timing(otherAnimation, {
         toValue: 0,
         duration: 300,
         useNativeDriver: false
       }).start(() => {
-        // Expand the new section
         setExpandedSection(section);
         Animated.timing(animation, {
           toValue: 1,
@@ -89,25 +95,52 @@ const SettingsScreen = () => {
   };
 
   const handleUpdateUser = async () => {
+    if (!userData) return;
+
     setIsUpdatingUser(true);
     try {
       const combinedPhoneNumber = `+${callingCode}${userData.phoneNumber.replace(/\D/g, '')}`;
 
-      const result = await updateUserAttributes({
+      console.log('callingCode:', callingCode);
+      console.log('Combined Phone:', combinedPhoneNumber);
+
+      await updateUserAttributes({
         userAttributes: {
-          name: userData.name, // Ensure this matches the Cognito attribute
+          name: userData.name,
           phone_number: combinedPhoneNumber,
-          'custom:countryCode': `+${callingCode}`,
-          'custom:phoneNumber': combinedPhoneNumber // Ensure custom:phoneNumber is updated
+          'custom:countryCode': `+${callingCode}`, // ✅ Reverting to working version
+          'custom:phoneNumber': combinedPhoneNumber
         }
       });
 
-      console.log('Update result:', result);
+      await client.graphql({
+        query: updateUsers,
+        variables: {
+          input: {
+            id: userData.id,
+            name: userData.name,
+            phoneNumber: userData.phoneNumber,
+            fullPhoneNumber: combinedPhoneNumber,
+            countryCode: `+${callingCode}`
+          }
+        }
+      });
 
       Toast.show({type: 'success', text1: 'Profile updated successfully!'});
+
+      // Fetch updated user to confirm changes
+      const updatedUser = await getCurrentUser();
+      console.log('Updated User Attributes:', updatedUser);
     } catch (error) {
       console.error('Error updating user:', error);
-      Toast.show({type: 'error', text1: 'Failed to update profile.'});
+
+      // Extracting error message for Toast
+      let errorMessage = error?.message || 'Failed to update profile.';
+      if (error?.errors) {
+        errorMessage = error.errors.map((err) => err.message).join(', ');
+      }
+
+      Toast.show({type: 'error', text1: 'Update Failed', text2: errorMessage});
     } finally {
       setIsUpdatingUser(false);
     }
@@ -158,7 +191,7 @@ const SettingsScreen = () => {
               <MyField
                 label='Name'
                 placeholder='Enter name'
-                value={userData.name} // Ensure name is fetched and displayed
+                value={userData.name}
                 onChange={(text) => setUserData({...userData, name: text})}
                 icon='account-outline'
               />
@@ -166,13 +199,16 @@ const SettingsScreen = () => {
               <MyField
                 label='Phone Number'
                 placeholder='Enter phone number'
-                value={userData.phoneNumber} // Ensure it gets the correct value from Cognito
+                value={userData.phoneNumber}
                 onChange={(text) => setUserData({...userData, phoneNumber: text})}
                 keyboardType='phone-pad'
                 isPhoneField
-                countryCode={countryCode} // Fetched from Cognito
-                callingCode={callingCode} // Fetched from Cognito
-                onCountryChange={(newCode) => setCountryCode(newCode)}
+                countryCode={countryCode}
+                callingCode={callingCode}
+                onCountryChange={(newCode) => {
+                  // console.log("code got >>>>", newCode)
+                  setCountryCode(newCode);
+                }}
                 onCallingCodeChange={(newCallingCode) => setCallingCode(newCallingCode)}
               />
 
