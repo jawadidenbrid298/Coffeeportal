@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import CountryPicker from 'react-native-country-picker-modal';
+import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 import PasswordValidation from './PasswordValidation';
 
 const MyField = ({
@@ -26,11 +26,22 @@ const MyField = ({
   const [localCallingCode, setLocalCallingCode] = useState(callingCode || '');
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    setSelectedCountry(countryCode);
+  const findCountryByCallingCode = async (code) => {
+    const countries = await getAllCountries();
+    const matchedCountry = countries.find((c) => c.callingCode.includes(code.replace('+', '')));
+    return matchedCountry ? matchedCountry.cca2 : 'US';
+  };
 
-    setLocalCallingCode(callingCode);
-  }, [countryCode, callingCode]);
+  useEffect(() => {
+    if (callingCode !== localCallingCode) {
+      setLocalCallingCode(callingCode);
+
+      findCountryByCallingCode(callingCode).then((newCountryCode) => {
+        setSelectedCountry(newCountryCode);
+        if (onCountryChange) onCountryChange(newCountryCode);
+      });
+    }
+  }, [callingCode]);
 
   return (
     <View>
@@ -51,7 +62,7 @@ const MyField = ({
                 console.log('flaggggggg', country.cca2);
                 setSelectedCountry(country.cca2);
 
-                const newCallingCode = `+${country.callingCode?.[0] || '1'}`;
+                const newCallingCode = `${country.callingCode?.[0] || '1'}`;
                 setLocalCallingCode(newCallingCode);
 
                 if (onCountryChange) onCountryChange(country.cca2);
