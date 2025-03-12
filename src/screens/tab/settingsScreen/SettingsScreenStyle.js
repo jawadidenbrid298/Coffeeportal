@@ -18,5 +18,10 @@ export const styles = StyleSheet.create({
     paddingVertical: 15
   },
   label: {fontSize: 20, fontWeight: 'bold'},
-  dropdownContainer: {paddingVertical: 20}
+  dropdownContainer: {paddingVertical: 20},
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

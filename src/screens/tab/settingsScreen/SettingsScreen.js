@@ -30,13 +30,14 @@ const SettingsScreen = () => {
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
   const [countryCode, setCountryCode] = useState('US');
   const [callingCode, setCallingCode] = useState('1');
-  const [initialUserData, setInitialUserData] = useState(null);
 
   useEffect(() => {
-    if (!initialUserData && userData) {
-      setInitialUserData(userData);
-    }
-  }, [userData]);
+    console.log('userdataaaa', userData);
+
+    // if (!userData) {
+    //   fetchUserData(); // Fetch if data isn't passed from navigation
+    // }
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -94,53 +95,52 @@ const SettingsScreen = () => {
   };
 
   const handleUpdateUser = async () => {
-    if (!userData || !initialUserData) return;
+    if (!userData) return;
 
     setIsUpdatingUser(true);
     try {
       const combinedPhoneNumber = `+${callingCode}${userData.phoneNumber.replace(/\D/g, '')}`;
 
-      const updatedFields = {};
+      console.log('callingCode:', callingCode);
+      console.log('Combined Phone:', combinedPhoneNumber);
 
-      if (userData.name.trim() !== initialUserData.name.trim()) {
-        updatedFields.name = userData.name;
-      }
-      if (userData.email.trim() !== initialUserData.email.trim()) {
-        updatedFields.email = userData.email;
-      }
-      if (userData.phoneNumber.trim() !== initialUserData.phoneNumber.trim()) {
-        updatedFields.phone_number = combinedPhoneNumber;
-        updatedFields['custom:phoneNumber'] = combinedPhoneNumber;
-        updatedFields['custom:countryCode'] = `+${callingCode}`;
-      }
-
-      if (Object.keys(updatedFields).length === 0) {
-        Toast.show({type: 'info', text1: 'No changes detected'});
-        setIsUpdatingUser(false);
-        return;
-      }
-
-      await updateUserAttributes({userAttributes: updatedFields});
+      await updateUserAttributes({
+        userAttributes: {
+          name: userData.name,
+          phone_number: combinedPhoneNumber,
+          'custom:countryCode': `+${callingCode}`, // ✅ Reverting to working version
+          'custom:phoneNumber': combinedPhoneNumber
+        }
+      });
 
       await client.graphql({
         query: updateUsers,
         variables: {
           input: {
             id: userData.id,
-            ...updatedFields
+            name: userData.name,
+            phoneNumber: userData.phoneNumber,
+            fullPhoneNumber: combinedPhoneNumber,
+            countryCode: `+${callingCode}`
           }
         }
       });
 
       Toast.show({type: 'success', text1: 'Profile updated successfully!'});
 
+      // Fetch updated user to confirm changes
       const updatedUser = await getCurrentUser();
       console.log('Updated User Attributes:', updatedUser);
-
-      setInitialUserData(userData);
     } catch (error) {
       console.error('Error updating user:', error);
-      Toast.show({type: 'error', text1: 'Update Failed', text2: error?.message || 'Failed to update profile.'});
+
+      // Extracting error message for Toast
+      let errorMessage = error?.message || 'Failed to update profile.';
+      if (error?.errors) {
+        errorMessage = error.errors.map((err) => err.message).join(', ');
+      }
+
+      Toast.show({type: 'error', text1: 'Update Failed', text2: errorMessage});
     } finally {
       setIsUpdatingUser(false);
     }
@@ -184,7 +184,7 @@ const SettingsScreen = () => {
           </TouchableOpacity>
           <Animated.View
             style={{
-              height: profileAnim.interpolate({inputRange: [0, 1], outputRange: [0, 370]}),
+              height: profileAnim.interpolate({inputRange: [0, 1], outputRange: [0, 270]}),
               overflow: 'hidden'
             }}>
             <View style={styles.dropdownContainer}>
@@ -206,16 +206,10 @@ const SettingsScreen = () => {
                 countryCode={countryCode}
                 callingCode={callingCode}
                 onCountryChange={(newCode) => {
+                  // console.log("code got >>>>", newCode)
                   setCountryCode(newCode);
                 }}
                 onCallingCodeChange={(newCallingCode) => setCallingCode(newCallingCode)}
-              />
-              <MyField
-                label='Email'
-                placeholder='Enter email'
-                value={userData.email}
-                onChange={(text) => setUserData({...userData, email: text})}
-                icon='email-outline'
               />
 
               <CustomButton title='Save Changes' onPress={handleUpdateUser} isLoading={isUpdatingUser} />
