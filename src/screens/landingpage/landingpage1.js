@@ -108,10 +108,11 @@ const LandingPage = () => {
         visible={showFreeDrink}
         onClose={() => setShowFreeDrink(false)}
         rewards={[
-          userData?.purchaseCount === 10
-            ? 'You got a free'
-            : `${10 - (userData?.purchaseCount || 0)} Cups to Go for a Free `,
-          'Drink'
+          userData?.freeDrinks > 1
+            ? `You have got ${userData?.freeDrinks} Drinks`
+            : userData?.freeDrinks > 0
+            ? 'You got a free Drink'
+            : `${10 - (userData?.purchaseCount || 0)} Cups to Go for a Free`
         ]}
       />
 
