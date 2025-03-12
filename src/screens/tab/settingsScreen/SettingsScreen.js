@@ -119,6 +119,7 @@ const SettingsScreen = () => {
           input: {
             id: userData.id,
             name: userData.name,
+            nameLower: userData.name.toLowerCase().replace(/\s/g, ''),
             phoneNumber: userData.phoneNumber,
             fullPhoneNumber: combinedPhoneNumber,
             countryCode: `+${callingCode}`
