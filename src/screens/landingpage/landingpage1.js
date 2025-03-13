@@ -71,7 +71,9 @@ const LandingPage = () => {
               <AntDesign name='caretdown' size={16} color='black' />
             </TouchableOpacity>
 
-            <Text style={styles.greeting}>Hi, {userData?.name || 'User'}</Text>
+            <Text style={styles.greeting}>
+  Hi, {userData?.name?.length > 15 ? `${userData.name.slice(0, 15)}...` : userData?.name || 'User'}
+</Text>
           </View>
           <Text style={styles.phone}>{userData?.fullPhoneNumber || '+XX-XXX-XXXXXXX'}</Text>
 
