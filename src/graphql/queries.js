@@ -7,9 +7,10 @@ export const getUsers = /* GraphQL */ `
       id
       email
       name
+      nameLower
+      fullPhoneNumber
       countryCode
       phoneNumber
-      fullPhoneNumber
       paymentType
       balance
       purchaseCount
@@ -29,9 +30,10 @@ export const getUsers = /* GraphQL */ `
             id
             email
             name
+            nameLower
+            fullPhoneNumber
             countryCode
             phoneNumber
-            fullPhoneNumber
             paymentType
             balance
             purchaseCount
@@ -51,9 +53,10 @@ export const getUsers = /* GraphQL */ `
                   id
                   email
                   name
+                  nameLower
+                  fullPhoneNumber
                   countryCode
                   phoneNumber
-                  fullPhoneNumber
                   paymentType
                   balance
                   purchaseCount
@@ -89,9 +92,10 @@ export const getUsers = /* GraphQL */ `
                   id
                   email
                   name
+                  nameLower
+                  fullPhoneNumber
                   countryCode
                   phoneNumber
-                  fullPhoneNumber
                   paymentType
                   balance
                   purchaseCount
@@ -134,9 +138,10 @@ export const getUsers = /* GraphQL */ `
             id
             email
             name
+            nameLower
+            fullPhoneNumber
             countryCode
             phoneNumber
-            fullPhoneNumber
             paymentType
             balance
             purchaseCount
@@ -156,9 +161,10 @@ export const getUsers = /* GraphQL */ `
                   id
                   email
                   name
+                  nameLower
+                  fullPhoneNumber
                   countryCode
                   phoneNumber
-                  fullPhoneNumber
                   paymentType
                   balance
                   purchaseCount
@@ -194,9 +200,10 @@ export const getUsers = /* GraphQL */ `
                   id
                   email
                   name
+                  nameLower
+                  fullPhoneNumber
                   countryCode
                   phoneNumber
-                  fullPhoneNumber
                   paymentType
                   balance
                   purchaseCount
@@ -242,9 +249,10 @@ export const listUsers = /* GraphQL */ `
         id
         email
         name
+        nameLower
+        fullPhoneNumber
         countryCode
         phoneNumber
-        fullPhoneNumber
         paymentType
         balance
         purchaseCount
@@ -264,9 +272,10 @@ export const listUsers = /* GraphQL */ `
               id
               email
               name
+              nameLower
+              fullPhoneNumber
               countryCode
               phoneNumber
-              fullPhoneNumber
               paymentType
               balance
               purchaseCount
@@ -286,9 +295,10 @@ export const listUsers = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -316,9 +326,10 @@ export const listUsers = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -353,9 +364,10 @@ export const listUsers = /* GraphQL */ `
               id
               email
               name
+              nameLower
+              fullPhoneNumber
               countryCode
               phoneNumber
-              fullPhoneNumber
               paymentType
               balance
               purchaseCount
@@ -375,9 +387,10 @@ export const listUsers = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -405,9 +418,10 @@ export const listUsers = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -449,9 +463,10 @@ export const getDeposits = /* GraphQL */ `
         id
         email
         name
+        nameLower
+        fullPhoneNumber
         countryCode
         phoneNumber
-        fullPhoneNumber
         paymentType
         balance
         purchaseCount
@@ -471,9 +486,10 @@ export const getDeposits = /* GraphQL */ `
               id
               email
               name
+              nameLower
+              fullPhoneNumber
               countryCode
               phoneNumber
-              fullPhoneNumber
               paymentType
               balance
               purchaseCount
@@ -493,9 +509,10 @@ export const getDeposits = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -523,9 +540,10 @@ export const getDeposits = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -560,9 +578,10 @@ export const getDeposits = /* GraphQL */ `
               id
               email
               name
+              nameLower
+              fullPhoneNumber
               countryCode
               phoneNumber
-              fullPhoneNumber
               paymentType
               balance
               purchaseCount
@@ -582,9 +601,10 @@ export const getDeposits = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -612,9 +632,10 @@ export const getDeposits = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -660,9 +681,10 @@ export const listDeposits = /* GraphQL */ `
           id
           email
           name
+          nameLower
+          fullPhoneNumber
           countryCode
           phoneNumber
-          fullPhoneNumber
           paymentType
           balance
           purchaseCount
@@ -682,9 +704,10 @@ export const listDeposits = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -737,9 +760,10 @@ export const listDeposits = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -802,9 +826,10 @@ export const getPayments = /* GraphQL */ `
         id
         email
         name
+        nameLower
+        fullPhoneNumber
         countryCode
         phoneNumber
-        fullPhoneNumber
         paymentType
         balance
         purchaseCount
@@ -824,9 +849,10 @@ export const getPayments = /* GraphQL */ `
               id
               email
               name
+              nameLower
+              fullPhoneNumber
               countryCode
               phoneNumber
-              fullPhoneNumber
               paymentType
               balance
               purchaseCount
@@ -846,9 +872,10 @@ export const getPayments = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -876,9 +903,10 @@ export const getPayments = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -913,9 +941,10 @@ export const getPayments = /* GraphQL */ `
               id
               email
               name
+              nameLower
+              fullPhoneNumber
               countryCode
               phoneNumber
-              fullPhoneNumber
               paymentType
               balance
               purchaseCount
@@ -935,9 +964,10 @@ export const getPayments = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -965,9 +995,10 @@ export const getPayments = /* GraphQL */ `
                     id
                     email
                     name
+                    nameLower
+                    fullPhoneNumber
                     countryCode
                     phoneNumber
-                    fullPhoneNumber
                     paymentType
                     balance
                     purchaseCount
@@ -1014,9 +1045,10 @@ export const listPayments = /* GraphQL */ `
           id
           email
           name
+          nameLower
+          fullPhoneNumber
           countryCode
           phoneNumber
-          fullPhoneNumber
           paymentType
           balance
           purchaseCount
@@ -1036,9 +1068,10 @@ export const listPayments = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -1091,9 +1124,10 @@ export const listPayments = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -1148,6 +1182,7 @@ export const getDrinks = /* GraphQL */ `
     getDrinks(id: $id) {
       id
       name
+      nameLower
       price
       createdAt
       updatedAt
@@ -1165,9 +1200,679 @@ export const listDrinks = /* GraphQL */ `
       items {
         id
         name
+        nameLower
         price
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const usersByNameAndCreatedAt = /* GraphQL */ `
+  query UsersByNameAndCreatedAt(
+    $name: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUsersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByNameAndCreatedAt(
+      name: $name
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        name
+        nameLower
+        fullPhoneNumber
+        countryCode
+        phoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              nameLower
+              fullPhoneNumber
+              countryCode
+              phoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              nameLower
+              fullPhoneNumber
+              countryCode
+              phoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const usersByNameAndFullPhoneNumber = /* GraphQL */ `
+  query UsersByNameAndFullPhoneNumber(
+    $name: String!
+    $fullPhoneNumber: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUsersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByNameAndFullPhoneNumber(
+      name: $name
+      fullPhoneNumber: $fullPhoneNumber
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        name
+        nameLower
+        fullPhoneNumber
+        countryCode
+        phoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              nameLower
+              fullPhoneNumber
+              countryCode
+              phoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              nameLower
+              fullPhoneNumber
+              countryCode
+              phoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const usersByFullPhoneNumberAndCreatedAt = /* GraphQL */ `
+  query UsersByFullPhoneNumberAndCreatedAt(
+    $fullPhoneNumber: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUsersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByFullPhoneNumberAndCreatedAt(
+      fullPhoneNumber: $fullPhoneNumber
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        name
+        nameLower
+        fullPhoneNumber
+        countryCode
+        phoneNumber
+        paymentType
+        balance
+        purchaseCount
+        freeDrinks
+        coins
+        stamps
+        createdAt
+        updatedAt
+        deposits {
+          items {
+            id
+            userID
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              nameLower
+              fullPhoneNumber
+              countryCode
+              phoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        payments {
+          items {
+            id
+            userID
+            stamps
+            amount
+            createdAt
+            updatedAt
+            user {
+              id
+              email
+              name
+              nameLower
+              fullPhoneNumber
+              countryCode
+              phoneNumber
+              paymentType
+              balance
+              purchaseCount
+              freeDrinks
+              coins
+              stamps
+              createdAt
+              updatedAt
+              deposits {
+                items {
+                  id
+                  userID
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              payments {
+                items {
+                  id
+                  userID
+                  stamps
+                  amount
+                  createdAt
+                  updatedAt
+                  user {
+                    id
+                    email
+                    name
+                    nameLower
+                    fullPhoneNumber
+                    countryCode
+                    phoneNumber
+                    paymentType
+                    balance
+                    purchaseCount
+                    freeDrinks
+                    coins
+                    stamps
+                    createdAt
+                    updatedAt
+                    __typename
+                  }
+                  __typename
+                }
+                nextToken
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          nextToken
+          __typename
+        }
         __typename
       }
       nextToken
@@ -1200,9 +1905,10 @@ export const depositsByUserID = /* GraphQL */ `
           id
           email
           name
+          nameLower
+          fullPhoneNumber
           countryCode
           phoneNumber
-          fullPhoneNumber
           paymentType
           balance
           purchaseCount
@@ -1222,9 +1928,10 @@ export const depositsByUserID = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -1277,9 +1984,10 @@ export const depositsByUserID = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -1355,9 +2063,10 @@ export const paymentsByUserID = /* GraphQL */ `
           id
           email
           name
+          nameLower
+          fullPhoneNumber
           countryCode
           phoneNumber
-          fullPhoneNumber
           paymentType
           balance
           purchaseCount
@@ -1377,9 +2086,10 @@ export const paymentsByUserID = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
@@ -1432,9 +2142,10 @@ export const paymentsByUserID = /* GraphQL */ `
                 id
                 email
                 name
+                nameLower
+                fullPhoneNumber
                 countryCode
                 phoneNumber
-                fullPhoneNumber
                 paymentType
                 balance
                 purchaseCount
